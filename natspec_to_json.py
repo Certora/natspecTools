@@ -10,30 +10,151 @@ from pathlib import Path
 import natspec_parser
 
 
+
+
 def natspec_to_json(args: List[str]) -> None:
     """
     This is the main function of generating natpec information.
     the function is getting as an input a file and generating a Json !
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_file', help='specify a name of input spec file ', type=str)
+    parser = argparse.ArgumentParser(description='export Natspec comments to JSON file(s)',
+                                     epilog='please, use with care')
+    parser.add_argument('input_file', help='specify a name of input spec file ', type=str, nargs='+')
     parser.add_argument('-v', '--verbosity', help='increase output verbosity', action='store_true')
     parser.add_argument('-dev', '--development', help='produce developer report', action='store_true')
     parser.add_argument('-user', '--user', help='produce end user report', action='store_true')
+    parser.add_argument('--version', action='version', version='%(prog)s Ver 0.1')
     args_used = parser.parse_args()
+
     if args_used.verbosity:
-        print(f'input file is: {args_used.input_file}')
+        print(f'input file(s) : {args_used.input_file}')
 
-    documentations = natspec_parser.parse([args_used.input_file])
+    # The parse function returns a list of documentations list, one
+    # list for each input file.
+    files_documentations = natspec_parser.parse(args_used.input_file)
 
-    print(documentations)
+    # loop through all documentation lists.
+    file_number = 0
+    for documentation_list in files_documentations:
+        file_number += 1
+        if args_used.verbosity:
+            print(f'processing file no: {file_number}')
 
-    json_string = json.dumps(documentations.__dict__)
+        json_object_list = handle_documentation_list(documentation_list)
 
-    json_file = open('data.json', 'w')
-    json_file.write(json_string)
-    json_file.close()
+        # build output file name from input file name
+        input_filename, file_extension = os.path.splitext(args_used.input_file[file_number])
+        output_filename =  os.path.join(input_filename + '.json')
+
+        json_string = json.dumps(json_object_list, indent=4)
+        json_file = open('output_filename', 'w')
+        json_file.write(json_string)
+        json_file.close()
+
+    if args_used.verbosity:
+        print('processing finished!')
+
+def handle_documentation_list(documentation_list) -> List[Dict]:
+    document_dicts = []
+    for documentation in documentation_list:
+        result_data = handle_documentation(documentation)
+        if result_data is not None:
+            document_dicts.append(result_data)
+
+    return document_dicts
 
 
+# handle documentation
+def handle_documentation(documentation) -> Dict[str, any]:
+    doc_dict = {}
+    diagnostics = documentation.diagnostics()
+
+    for message in diagnostics:
+        print_diag(message)
+
+    # check if this item is a FreeForm text
+    if documentation.__class__.__name__ == 'FreeForm':
+        doc_dict['type'] = 'text'
+        doc_dict['header'] = documentation.header
+        doc_dict['text'] = documentation.block
+        return doc_dict
+    elif documentation.__class__.__name__ == 'Documentation':  # Documentation object
+        if documentation.associated is not None:
+            doc_dict['content'] = documentation.associated.block
+            function_names = ['function', 'definition', 'ghost variable', 'ghost function']
+            other_names = ['summerization', 'import', 'use', 'using', 'hook']
+
+            if documentation.associated.kind in function_names:
+                doc_dict['type'] = 'function'
+            elif documentation.associated.kind == 'rule':
+                doc_dict['type'] = 'rule'
+            elif documentation.associated.kind == 'invariant':
+                doc_dict['type'] = 'invariant'
+            elif documentation.associated.kind in other_names:
+                doc_dict['type'] = documentation.associated.kind
+            else:
+                print(f'unknown element type : {documentation.associated.kind}')
+
+            # add parameters info, if exist
+            param_list = []
+            param_index = 0
+            for param in documentation.associated.params:
+                param_dict = {'type': param[0], 'name': param[1]}
+                param_list.append(param_dict)
+
+                doc_dict['params'] = param_list
+        else:  # associated elemen is unknown.
+            doc_dict['type'] = 'unknown'
+
+    else:
+        print('NatSpec parser library type is not supported!')
+        return None
+
+    for doc_tag in documentation.tags:
+        handle_tag(doc_dict, doc_tag)
+
+    return doc_dict
+
+
+def print_diag(diagnostic):
+    diag_msg = ''
+
+    if diagnostic.severity == diagnostic.severity.Error:
+        diag_msg += '*** Error! '
+    elif diagnostic.severity == diagnostic.severity.Warning:
+        diag_msg += 'Warning: '
+    else:  # TODO
+        diag_msg += 'Info: '
+
+    diag_msg += f'line:  {diagnostic.range.start.line} Col: {diagnostic.range.start.character}: '
+    diag_msg += diagnostic.description
+    print(diag_msg)
+
+
+# handle documentation tags
+def handle_tag(doc_dict, tag):
+    if tag.kind == 'title':
+        doc_dict['title'] = tag.description
+    elif tag.kind == 'notice':
+        doc_dict['notice'] = tag.description
+    elif tag.kind == 'formula':
+        doc_dict['formula'] = tag.description
+    elif tag.kind == 'return':
+        doc_dict['return'] = {'comment': tag.return_val.text, 'type': tag.return_val.type}
+    elif tag.kind == 'param':
+        param_name_match = re.match(r"^\w+", tag.description)
+        if param_name_match:
+            # get the param name from the comment
+            # find it in the param lists, and
+            param_name = param_name_match.group()
+            params_info_list = doc_dict['params']
+            for param_info in params_info_list:
+                if param_info['name'] == param_name:
+                    param_info['comment'] = tag.description
+    else:
+        print(f'unsupported tag: {tag.kind}')
+
+
+# handle a parameter definition comment
 if __name__ == '__main__':
     natspec_to_json(sys.argv[1:])
