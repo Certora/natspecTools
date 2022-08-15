@@ -1,0 +1,86 @@
+[
+    {
+        "type": "text",
+        "header": "Function testing.",
+        "text": null
+    },
+    {
+        "type": "text",
+        "header": "This function is testing the invoking process",
+        "text": null
+    },
+    {
+        "type": "text",
+        "header": "part of the Fahrenheit project",
+        "text": null
+    },
+    {
+        "content": "{\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t    env eF;\r\n\t\trequire (eF.msg.sender == x);\r\n        sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tcalldataarg arg;\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n}",
+        "type": "function",
+        "params": [
+            {
+                "type": "address",
+                "name": "d",
+                "comment": "d the first address"
+            },
+            {
+                "type": "address",
+                "name": "x",
+                "comment": "x the unkown signer address"
+            },
+            {
+                "type": "method",
+                "name": "f",
+                "comment": "f the signing function."
+            }
+        ],
+        "return": {
+            "type": "None"
+        },
+        "title": "Callf authorization function.",
+        "notice": "this function is part of the project and\nperforming authorization checks on some addresses."
+    },
+    {
+        "content": "{\r\n    uint8 age;\r\n    age, _, _ = getFullVoterDetails(e, voter);\r\n    return age;\r\n}",
+        "type": "function",
+        "params": [
+            {
+                "type": "env",
+                "name": "e",
+                "comment": "e the used environment"
+            },
+            {
+                "type": "address",
+                "name": "voter",
+                "comment": "voter - the prospect voter address"
+            }
+        ],
+        "return": {
+            "type": "uint8",
+            "comment": "the voter age."
+        },
+        "title": "getVoterAge - get voter age.",
+        "notice": "this function decides if the sender is old enough to vote\nit uses the getFullVoterDetails function."
+    },
+    {
+        "content": "{\r\n    bool isReg;\r\n    _, isReg, _ = getFullVoterDetails(e, voter);\r\n    return isReg;\r\n}",
+        "type": "function",
+        "params": [
+            {
+                "type": "env",
+                "name": "e",
+                "comment": "e the used environment"
+            },
+            {
+                "type": "address",
+                "name": "voter",
+                "comment": "voter - the prospect voter address"
+            }
+        ],
+        "return": {
+            "type": "bool",
+            "comment": "indication if the voter is registered."
+        },
+        "title": "getRegistered - get registered."
+    }
+]

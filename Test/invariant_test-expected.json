@@ -1,0 +1,63 @@
+[
+    {
+        "type": "text",
+        "header": "testing  NatSpec file for invariants contains all sort of invariants.",
+        "text": "# each invariant has a somewhat different tags associated with it."
+    },
+    {
+        "content": "",
+        "type": "invariant",
+        "params": [],
+        "return": {
+            "type": "None"
+        },
+        "title": "totalSupply_LE_balance",
+        "notice": "invariant to assure that the total supply is always under the balance amount.\nthe variant has no parameters."
+    },
+    {
+        "content": "",
+        "type": "invariant",
+        "params": [],
+        "return": {
+            "type": "None"
+        },
+        "title": "totalSupply_vs_balance",
+        "notice": "The total supply of the system si zero if and only if the balanceof the system is zero\nthe variant has no parameters"
+    },
+    {
+        "content": "",
+        "type": "invariant",
+        "params": [
+            {
+                "type": "address",
+                "name": "a",
+                "comment": "a = proxy address"
+            }
+        ],
+        "return": {
+            "type": "None"
+        },
+        "title": "proxyNotZero",
+        "notice": "make sure that the proxy is not zero."
+    },
+    {
+        "content": "",
+        "type": "invariant",
+        "params": [
+            {
+                "type": "address",
+                "name": "x",
+                "comment": "x = source address"
+            },
+            {
+                "type": "address",
+                "name": "d",
+                "comment": "d = destination address"
+            }
+        ],
+        "return": {
+            "type": "None"
+        },
+        "title": "check - check all addresses."
+    }
+]

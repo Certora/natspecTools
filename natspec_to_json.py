@@ -10,48 +10,37 @@ from pathlib import Path
 import natspec_parser
 
 
-
-
-def natspec_to_json(args: List[str]) -> None:
+def natspec_to_json(args) -> None:
     """
-    This is the main function of generating natpec information.
+    This is the main function of generating natspec information.
     the function is getting as an input a file and generating a Json !
     """
-    parser = argparse.ArgumentParser(description='export Natspec comments to JSON file(s)',
-                                     epilog='please, use with care')
-    parser.add_argument('input_file', help='specify a name of input spec file ', type=str, nargs='+')
-    parser.add_argument('-v', '--verbosity', help='increase output verbosity', action='store_true')
-    parser.add_argument('-dev', '--development', help='produce developer report', action='store_true')
-    parser.add_argument('-user', '--user', help='produce end user report', action='store_true')
-    parser.add_argument('--version', action='version', version='%(prog)s Ver 0.1')
-    args_used = parser.parse_args()
-
-    if args_used.verbosity:
-        print(f'input file(s) : {args_used.input_file}')
+    if args.verbosity:
+        print(f'input file(s) : {args.input_file}')
 
     # The parse function returns a list of documentations list, one
     # list for each input file.
-    files_documentations = natspec_parser.parse(args_used.input_file)
+    files_documentations = natspec_parser.parse(args.input_file)
 
     # loop through all documentation lists.
     file_number = 0
     for documentation_list in files_documentations:
-        file_number += 1
-        if args_used.verbosity:
-            print(f'processing file no: {file_number}')
+        if args.verbosity:
+            print(f'processing file no: {args.input_file[file_number]}')
 
         json_object_list = handle_documentation_list(documentation_list)
 
         # build output file name from input file name
-        input_filename, file_extension = os.path.splitext(args_used.input_file[file_number])
-        output_filename =  os.path.join(input_filename + '.json')
+        input_filename, file_extension = os.path.splitext(args.input_file[file_number])
+        output_filename = os.path.join(input_filename + '-natspec' + '.json')
 
         json_string = json.dumps(json_object_list, indent=4)
-        json_file = open('output_filename', 'w')
+        json_file = open(output_filename, 'w')
         json_file.write(json_string)
         json_file.close()
+        file_number += 1
 
-    if args_used.verbosity:
+    if args.verbosity:
         print('processing finished!')
 
 def handle_documentation_list(documentation_list) -> List[Dict]:
@@ -65,10 +54,12 @@ def handle_documentation_list(documentation_list) -> List[Dict]:
 
 
 # handle documentation
+# a documentation can be a 'Free form' or an actual 'Documentation' object
 def handle_documentation(documentation) -> Dict[str, any]:
     doc_dict = {}
     diagnostics = documentation.diagnostics()
 
+    # display all documentation diagnostic messages, if exist
     for message in diagnostics:
         print_diag(message)
 
@@ -102,8 +93,17 @@ def handle_documentation(documentation) -> Dict[str, any]:
                 param_dict = {'type': param[0], 'name': param[1]}
                 param_list.append(param_dict)
 
-                doc_dict['params'] = param_list
-        else:  # associated elemen is unknown.
+            doc_dict['params'] = param_list
+
+            # get the return data type
+            ret_data = {}
+            if documentation.associated.returns is not None:
+                ret_data = {'type': documentation.associated.returns}
+            else:
+                ret_data = {'type': 'None'}
+            doc_dict['return'] = ret_data
+
+        else:  # associated element is unrecognized.
             doc_dict['type'] = 'unknown'
 
     else:
@@ -114,6 +114,18 @@ def handle_documentation(documentation) -> Dict[str, any]:
         handle_tag(doc_dict, doc_tag)
 
     return doc_dict
+
+
+def get_parser():
+    # separate the argument parser definition
+    parser = argparse.ArgumentParser(description='export Natspec comments to JSON file(s)',
+                                     epilog='please, use with care')
+    parser.add_argument('input_file', help='specify a name of input spec file ', type=str, nargs='+')
+    parser.add_argument('-v', '--verbosity', help='increase output verbosity', action='store_true')
+    parser.add_argument('-dev', '--development', help='produce developer report', action='store_true')
+    parser.add_argument('-user', '--user', help='produce end user report', action='store_true')
+    parser.add_argument('--version', action='version', version='%(prog)s Ver 0.1')
+    return parser
 
 
 def print_diag(diagnostic):
@@ -140,7 +152,8 @@ def handle_tag(doc_dict, tag):
     elif tag.kind == 'formula':
         doc_dict['formula'] = tag.description
     elif tag.kind == 'return':
-        doc_dict['return'] = {'comment': tag.return_val.text, 'type': tag.return_val.type}
+        ret_data = doc_dict['return']
+        ret_data['comment'] = tag.description
     elif tag.kind == 'param':
         param_name_match = re.match(r"^\w+", tag.description)
         if param_name_match:
@@ -155,6 +168,9 @@ def handle_tag(doc_dict, tag):
         print(f'unsupported tag: {tag.kind}')
 
 
-# handle a parameter definition comment
+VERSION_STR = '0.0.1'
 if __name__ == '__main__':
-    natspec_to_json(sys.argv[1:])
+    __version__ = VERSION_STR
+    parser = get_parser()
+    args = parser.parse_args()
+    natspec_to_json(args)

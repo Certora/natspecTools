@@ -1,0 +1,84 @@
+[
+    {
+        "type": "text",
+        "header": "Natspec for rules.\r\n * ## A testing file for rules definitions comments.\r\n * ## it contains rules with and without parameters\r\n",
+        "text": null
+    },
+    {
+        "content": "{\r\n\r\n\tenv eF;\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse {\r\n\t\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;\r\n\r\n}",
+        "type": "rule",
+        "params": [
+            {
+                "type": "address",
+                "name": "d",
+                "comment": "d - the address of the sender"
+            },
+            {
+                "type": "address",
+                "name": "x",
+                "comment": "x - the address of the function invoker"
+            },
+            {
+                "type": "method",
+                "name": "f",
+                "comment": "f - the function to be invoked."
+            }
+        ],
+        "return": {
+            "type": "None"
+        },
+        "title": "Simple rule for checking authorizations",
+        "notice": " getting two addresses and a method.\nchecking if the sender is autorise to run the method."
+    },
+    {
+        "content": "{\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       env eF;\r\n\t\t   require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;\r\n}",
+        "type": "rule",
+        "params": [
+            {
+                "type": "address",
+                "name": "d",
+                "comment": "d the address of the sender."
+            },
+            {
+                "type": "address",
+                "name": "x",
+                "comment": "x the address of the receiver"
+            },
+            {
+                "type": "method",
+                "name": "f"
+            }
+        ],
+        "return": {
+            "type": "None"
+        },
+        "notice": "# simple2 - another simple rule.",
+        "title": "Selector rule."
+    },
+    {
+        "content": "{\r\n\tcallF(d,x,f);\r\n\tassert false;\r\n}",
+        "type": "rule",
+        "params": [
+            {
+                "type": "address",
+                "name": "d",
+                "comment": "d the first address."
+            },
+            {
+                "type": "address",
+                "name": "x",
+                "comment": "x the second address."
+            },
+            {
+                "type": "method",
+                "name": "f",
+                "comment": "f - the method that is being tested."
+            }
+        ],
+        "return": {
+            "type": "None"
+        },
+        "title": "simple3 - another simple rule.",
+        "notice": "this is a very short and simple rule"
+    }
+]
