@@ -1,0 +1,10 @@
+.idea
+*.iml
+target
+*.bin-runtime
+*.vandal
+*.html
+*.hex
+*.png
+*.smt
+*.pyc
