@@ -14,6 +14,14 @@ input_file      - the input spec file to analyze, there can be more than one
 --version       - show program version and exit
 
 The tool invoke the netspec parser and will generate a JSON file that contains all the 
+
+# Testing
+In order to test the JSON generator run simply:
+    python natspec_tests.py
+This will run a series of spec file as input and compare the 
+resulted json with the expected json result.
+Any differences will be reported to the standard outputs.
+
 ## Notes
 
 1. Every input file will generate a JSON file, with the same name, at the same folder, different extension.
