@@ -1,5 +1,5 @@
-# natspec_to_json
-conversion tool of  the NatSpec comments on a spec file(s) to a JSON file.
+# natspecTools
+parse NatSpec comments from a spec file(s) and save them in a JSON file.
 
 ## usage
 
