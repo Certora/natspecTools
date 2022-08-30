@@ -1,27 +1,25 @@
-name: CI
+name: Build
 
-on:
-  # Triggers the workflow on push events for all branches or pull request for main branch
-  push:
-    branches: [ "gavriel_oz/circleci" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
-  build:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        include:
-          # MacOS arm64
-          - os: macos-latest
-            bitness: 64
-            python: 38
-            platform_id: macosx_arm64      
+        os: [macOS-11] #, windows-2019, ubuntu-20.04]
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v3
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.9.0
+
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse 
 
       - name: Install pip
         run: |
