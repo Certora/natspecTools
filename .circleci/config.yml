@@ -13,6 +13,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Install python and pip"
+          command: |
+            python3 --version
+            curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+            python3 get-pip.py
+      - run:
           name: "Install pip dependencies"
           command: "pip install wheel twine"
 
