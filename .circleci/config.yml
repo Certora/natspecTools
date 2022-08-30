@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Install python and pip"
+          name: "Install pip"
           command: |
             python3 --version
             curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -21,6 +21,13 @@ jobs:
       - run:
           name: "Install pip dependencies"
           command: "pip install wheel twine"
+      - run:
+          name: "Build wheel"
+          command: "python3 setup.py bdist_wheel"
+      - run:
+          name: "Build source  distribution"
+          command: "python3 setup.py sdist"
+
 
 
 # Invoke jobs via workflows
