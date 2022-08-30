@@ -10,11 +10,15 @@ on:
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest] #, windows-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    
+        include:
+          # MacOS arm64
+          - os: macos-latest
+            bitness: 64
+            python: 38
+            platform_id: macosx_arm64      
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
