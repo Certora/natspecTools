@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  # Triggers the workflow on push events for all branches or pull request for main branch
+  push:
+    branches: [ "gavriel_oz/circleci" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest] #, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Install pip
+        run: |
+            sysctl machdep.cpu.brand_string
+            python3 --version
+            curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+            python3 get-pip.py
