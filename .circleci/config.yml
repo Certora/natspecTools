@@ -20,19 +20,21 @@ jobs:
             python3 get-pip.py
       - run:
           name: "Install pip dependencies"
-          command: "pip install wheel twine"
+          command: "pip install wheel twine natspec_parser-0.2.0-cp310-cp310-macosx_11_0_arm64.whl"
       - run:
           name: "Build wheel"
           command: "python3 setup.py bdist_wheel"
       - run:
-          name: "Build source  distribution"
+          name: "Build source distribution"
           command: "python3 setup.py sdist"
-
+      - run:
+          name: "Publish to PyPI"
+          command: "echo publish"
 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  build-and-publish-python-package:
     jobs:
       - build
