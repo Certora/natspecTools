@@ -2,10 +2,11 @@ version: 2.1
 
 jobs:
   build:
-    macos:
-      xcode: 12.5.1
+    docker:
+      - image: cimg/python:3.7.13
     steps:
       - checkout
+      - run: python --version
       - run:
           name: "Install pip"
           command: |
@@ -14,7 +15,7 @@ jobs:
             python3 get-pip.py
       - run:
           name: "Install pip dependencies"
-          command: "pip install wheel twine"
+          command: "pip install wheel twine bin/natspec_parser-0.2.0-cp38-cp38-manylinux_2_28_x86_64.whl"
       - run:
           name: "Build wheel"
           command: "python3 setup.py bdist_wheel"
@@ -25,9 +26,6 @@ jobs:
           name: "Publish to PyPI"
           command: "echo publish"
 
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   build-and-publish-python-package:
     jobs:
