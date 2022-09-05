@@ -15,7 +15,7 @@ jobs:
             python3 get-pip.py
       - run:
           name: "Install pip dependencies"
-          command: "pip install wheel twine bin/natspec_parser-0.2.0-cp38-cp38-manylinux_2_28_x86_64.whl"
+          command: "pip install wheel twine bin/natspec_parser-0.2.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
       - run:
           name: "Build wheel"
           command: "python3 setup.py bdist_wheel"
