@@ -3,30 +3,20 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/python:3.8.13
+      - image: cimg/python:3.7.13
     steps:
       - checkout
-      - run: python --version
-      - run:
-          name: "Install pip"
-          command: |
-            python3 --version
-            curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-            python3 get-pip.py
       - run:
           name: "Install pip dependencies"
-          command: "pip install wheel twine bin/natspec_parser-0.2.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+          command: "pip install wheel twine bin/natspec_parser-0.2.0-cp37-cp37m-manylinux_2_28_x86_64.whl"
       - run:
-          name: "Build wheel"
-          command: "python3 setup.py bdist_wheel"
-      - run:
-          name: "Build source distribution"
-          command: "python3 setup.py sdist"
-      - run:
-          name: "Publish to PyPI"
-          command: "echo publish"
+          name: "Build wheel and source"
+          command: "python3 setup.py bdist_wheel sdist"
+      - store_artifacts:
+          path: /workspaces/natspecTools/dist
 
 workflows:
   build-and-publish-python-package:
     jobs:
       - build
+      
