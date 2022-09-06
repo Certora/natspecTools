@@ -18,17 +18,14 @@ if __name__ == "__main__":
         url="https://github.com/Certora/natspecTools",
         packages=setuptools.find_packages(),
         include_package_data=True,
-        install_requires=[],
+        install_requires=[
+            'natspec_parser==0.2.1'
+        ],
         classifiers=[
             "Programming Language :: Python :: 3",
             "License :: OSI Approved :: MIT License",
             "Operating System :: OS Independent",
             "Development Status :: 3 - Alpha",
         ],
-        # entry_points={
-        #     "console_scripts": [
-        #         "natspec = certora_cli.certoraRun:entry_point"
-        #     ]
-        # },
         python_requires='>=3.5',
     )
