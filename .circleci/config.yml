@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build-and-publish:
     docker:
       - image: cimg/python:3.7.13
     steps:
@@ -13,10 +13,9 @@ jobs:
           name: "Build wheel and source"
           command: "python3 setup.py bdist_wheel sdist"
       - store_artifacts:
-          path: /workspaces/natspecTools/dist
+          path: /workspaces/natspecTools/dist/*
 
 workflows:
-  build-and-publish-python-package:
+  build-and-publish:
     jobs:
-      - build
-      
+      - build-and-publish
