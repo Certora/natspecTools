@@ -13,7 +13,7 @@ jobs:
           name: "Build wheel and source"
           command: "python3 setup.py bdist_wheel sdist"
       - store_artifacts:
-          path: /workspaces/natspecTools/dist/*
+          path: dist
 
 workflows:
   build-and-publish:
