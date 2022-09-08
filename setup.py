@@ -3,14 +3,14 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-NAME = "certora-natspec"
-VERSION = "0.1.0"
+NAME = "CVLDoc"
+VERSION = "0.1.1"
 
 if __name__ == "__main__":
     setuptools.setup(
         name=NAME,
         version=VERSION,
-        author="Certora",
+        author="Certora ltd",
         author_email="support@certora.com",
         description=" Utility for reading smart contracts files, parse and export their NatSpec comments to JSON files.",
         long_description=long_description,
