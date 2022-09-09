@@ -1,6 +1,10 @@
 # natspecTools
 parse NatSpec comments from a spec file(s) and save them in a JSON file.
 
+## Installation
+
+TODO
+
 ## usage
 
 natspec_to_json.py [-h] [-v] [-dev] [-user] [--version]
