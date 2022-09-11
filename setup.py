@@ -18,6 +18,15 @@ if __name__ == "__main__":
         url="https://github.com/Certora/natspecTools",
         packages=setuptools.find_packages(),
         include_package_data=True,
+        data_files=[('examples', ['tests/Test/definition_test.spec',
+                                  'tests/Test/import_test.spec',
+                                  'tests/Test/rules_test.spec',
+                                  'tests/Test/full_contract.spec',
+                                  'tests/Test/invariant_test.spec',
+                                  'tests/Test/use_test.spec',
+                                  'tests/Test/function_test.spec',
+                                  'tests/Test/methods_test.spec',
+                                  'tests/Test/using_test.spec'])],
         install_requires=[
             'natspec_parser==0.2.1'
         ],
