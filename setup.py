@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 NAME = "CVLDoc"
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 
 if __name__ == "__main__":
     setuptools.setup(
@@ -17,6 +17,7 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         url="https://github.com/Certora/natspecTools",
         packages=setuptools.find_packages(),
+        package_dir={'CVLDoc': 'src/natspecTools'},
         include_package_data=True,
         data_files=[('examples', ['tests/Test/definition_test.spec',
                                   'tests/Test/import_test.spec',
