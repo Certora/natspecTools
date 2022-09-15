@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  build-and-publish:
+    docker:
+      - image: cimg/python:3.7.13
+    steps:
+      - checkout
+      - run:
+          name: "Install pip dependencies"
+          command: |
+            pip install wheel
+            pip install -i https://test.pypi.org/simple/ natspec-parser
+      - run:
+          name: "Build wheel and source"
+          command: "python3 setup.py bdist_wheel sdist"
+      - store_artifacts:
+          path: dist
+      - run:
+          name: Upload to Test PyPI
+          command: |
+            pip install --user twine
+            python3 -m twine upload --skip-existing --verbose --repository testpypi -u ${TESTPYPI_USER} -p ${TESTPYPI_PASSWORD} dist/*
+
+workflows:
+  build-and-publish:
+    jobs:
+      - build-and-publish

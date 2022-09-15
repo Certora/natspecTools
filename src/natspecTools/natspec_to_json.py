@@ -168,9 +168,12 @@ def handle_tag(doc_dict, tag):
         print(f'unsupported tag: {tag.kind}')
 
 
-VERSION_STR = '0.0.1'
-if __name__ == '__main__':
-    __version__ = VERSION_STR
+def entry_point():
+    """Entry point for the application script"""
     parser = get_parser()
     args = parser.parse_args()
     natspec_to_json(args)
+
+
+if __name__ == '__main__':
+    entry_point()

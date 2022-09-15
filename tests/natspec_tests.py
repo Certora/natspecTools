@@ -1,10 +1,11 @@
 import json
-import natspec_to_json
+import src.natspecTools.natspec_to_json as natspec_to_json
 from deepdiff import DeepDiff
 from pprint import pprint
 
 import os
 
+test_args = ['-v']
 filenames = ['Test\\function_test.spec',
              'Test\\invariant_test.spec',
              'test\\rules_test.spec',
@@ -15,7 +16,7 @@ filenames = ['Test\\function_test.spec',
              'test\\full_contract.spec']
 
 parser = natspec_to_json.get_parser()
-args = parser.parse_args(filenames)
+args = parser.parse_args(test_args + filenames)
 natspec_to_json.natspec_to_json(args)
 
 # check the result against the expected results

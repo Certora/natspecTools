@@ -3,32 +3,46 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-NAME = "certora-natspec"
-VERSION = "0.1.0"
+NAME = "CVLDoc"
+VERSION = "0.1.4"
 
 if __name__ == "__main__":
     setuptools.setup(
         name=NAME,
         version=VERSION,
-        author="Certora",
+        author="Certora ltd",
         author_email="support@certora.com",
         description=" Utility for reading smart contracts files, parse and export their NatSpec comments to JSON files.",
         long_description=long_description,
         long_description_content_type="text/markdown",
+        keywords='Certora, CVLDoc',
         url="https://github.com/Certora/natspecTools",
-        packages=setuptools.find_packages(),
+        packages=setuptools.find_packages(where='src'),
+        package_dir={'': 'src'},
         include_package_data=True,
-        install_requires=[],
+        data_files=[('examples', ['tests/Test/definition_test.spec',
+                                  'tests/Test/import_test.spec',
+                                  'tests/Test/rules_test.spec',
+                                  'tests/Test/full_contract.spec',
+                                  'tests/Test/invariant_test.spec',
+                                  'tests/Test/use_test.spec',
+                                  'tests/Test/function_test.spec',
+                                  'tests/Test/methods_test.spec',
+                                  'tests/Test/using_test.spec'])],
+        install_requires=[
+            'cffi',
+            'natspec_parser==0.2.1'
+        ],
         classifiers=[
             "Programming Language :: Python :: 3",
             "License :: OSI Approved :: MIT License",
             "Operating System :: OS Independent",
             "Development Status :: 3 - Alpha",
         ],
-        # entry_points={
-        #     "console_scripts": [
-        #         "natspec = certora_cli.certoraRun:entry_point"
-        #     ]
-        # },
         python_requires='>=3.5',
+        entry_points={
+            "console_scripts": [
+                "cvlDoc=natspecTools.natspec_to_json:entry_point",
+            ],
+        },
     )
