@@ -10,7 +10,7 @@ jobs:
           name: "Install pip dependencies"
           command: |
             pip install wheel pytest deepdiff 
-            pip install -i https://test.pypi.org/simple/ natspec-parser==0.3.2
+            pip install -i https://test.pypi.org/simple/ natspec-parser==0.3.3
       - run:
           name: "run tests"
           command: |
