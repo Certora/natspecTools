@@ -2,7 +2,7 @@ import json
 import src.CVLDoc.natspec_to_json as natspec_to_json
 from deepdiff import DeepDiff
 from pprint import pprint
-
+from pathlib import Path
 import os
 
 #test_args = ['-v']
@@ -42,30 +42,57 @@ def run_test_file(filename):
 
 
 def test_full_contract():
-    diff = run_test_file('Test\\full_contract.spec')
+    diff = run_test_file(str(Path('Test/full_contract.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 def test_invariant():
-    diff = run_test_file('Test\\invariant_test.spec')
+    diff = run_test_file(str(Path('Test/invariant_test.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 
 def test_function():
-    diff = run_test_file('Test\\function_test.spec')
+    diff = run_test_file(str(Path('Test/function_test.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
+
 def test_burnable():
-    diff = run_test_file('oz-tests\\ERC1155Burnable.spec')
+
+    diff = run_test_file(str(Path('oz-tests/ERC1155Burnable.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+
+def test_new():
+
+    diff = run_test_file(str(Path('oz-tests/ERC1155New.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+
+def test_pausable():
+    diff = run_test_file(str(Path('oz-tests/ERC1155Pausable.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+
+def test_supply():
+    diff = run_test_file(str(Path('oz-tests/ERC1155Supply.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 
 if __name__ == '__main__':
+    test_full_contract()
+    test_invariant()
     test_burnable()
+    test_new()
