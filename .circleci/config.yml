@@ -9,8 +9,13 @@ jobs:
       - run:
           name: "Install pip dependencies"
           command: |
-            pip install wheel
-            pip install -i https://test.pypi.org/simple/ natspec-parser
+            pip install wheel, pytest, deepdiff 
+            pip install -i https://test.pypi.org/simple/ natspec-parser==0.3.2
+      - run:
+          name: "run tests"
+          command: |
+            cd tests
+            pytest natspec_tests.py
       - run:
           name: "Build wheel and source"
           command: "python3 setup.py bdist_wheel sdist"

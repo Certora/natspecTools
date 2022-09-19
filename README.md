@@ -25,8 +25,8 @@ Any differences will be reported to the standard outputs.
 ## Notes
 
 1. Every input file will generate a JSON file, with the same name, at the same folder, different extension.
-2. If the parser or the conversion process will encounter one or more problems, the error messages will be displayed on the standard output
-3. Not all NatSpec tags and required error messages are supported in this version.
+   2. If the parser or the conversion process will encounter one or more problems, the error messages will be displayed on the standard output
+   3. Not all NatSpec tags and required error messages are supported in this version.
 
 
 

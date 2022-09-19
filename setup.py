@@ -17,21 +17,21 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         keywords='Certora, CVLDoc',
         url="https://github.com/Certora/natspecTools",
-        packages=setuptools.find_packages(where='src'),
-        package_dir={'': 'src'},
+        packages=setuptools.find_packages(),  # where='src'),
+        #package_dir={'': 'src'},
         include_package_data=True,
-        data_files=[('examples', ['tests/Test/definition_test.spec',
-                                  'tests/Test/import_test.spec',
-                                  'tests/Test/rules_test.spec',
-                                  'tests/Test/full_contract.spec',
-                                  'tests/Test/invariant_test.spec',
-                                  'tests/Test/use_test.spec',
-                                  'tests/Test/function_test.spec',
-                                  'tests/Test/methods_test.spec',
-                                  'tests/Test/using_test.spec'])],
+        # data_files=[('CVLDoc/examples', ['tests/Test/definition_test.spec',
+        #                                  'tests/Test/import_test.spec',
+        #                                  'tests/Test/rules_test.spec',
+        #                                  'tests/Test/full_contract.spec',
+        #                                  'tests/Test/invariant_test.spec',
+        #                                  'tests/Test/use_test.spec',
+        #                                  'tests/Test/function_test.spec',
+        #                                  'tests/Test/methods_test.spec',
+        #                                  'tests/Test/using_test.spec'])],
         install_requires=[
             'cffi',
-            'natspec_parser==0.2.1'
+            'natspec_parser==0.3.3'
         ],
         classifiers=[
             "Programming Language :: Python :: 3",
@@ -39,10 +39,10 @@ if __name__ == "__main__":
             "Operating System :: OS Independent",
             "Development Status :: 3 - Alpha",
         ],
-        python_requires='>=3.5',
+        python_requires='>=3.7',
         entry_points={
             "console_scripts": [
-                "cvlDoc=natspecTools.natspec_to_json:entry_point",
+                "cvlDoc=CVLDoc.natspec_to_json:entry_point",
             ],
         },
     )

@@ -66,8 +66,7 @@ def handle_documentation(documentation) -> Dict[str, any]:
     # check if this item is a FreeForm text
     if documentation.__class__.__name__ == 'FreeForm':
         doc_dict['type'] = 'text'
-        doc_dict['header'] = documentation.header
-        doc_dict['text'] = documentation.block
+        doc_dict['text'] = documentation.text
         return doc_dict
     elif documentation.__class__.__name__ == 'Documentation':  # Documentation object
         if documentation.associated is not None:
