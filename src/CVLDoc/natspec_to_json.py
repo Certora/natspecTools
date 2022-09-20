@@ -18,15 +18,26 @@ def natspec_to_json(args) -> None:
     if args.verbosity:
         print(f'input file(s) : {args.input_file}')
 
+    # check file existence before sending them to the parser.
+    for filename in args.input_file:
+        if not os.path.isfile(filename):
+            if args.verbosity:
+                print(f'file name: {filename} doesn\'t exist, skipping it!')
+            args.input_file.remove(filename)
+
+    if not args.input_file:
+        return
+
     # The parse function returns a list of documentations list, one
     # list for each input file.
     files_documentations = natspec_parser.parse(args.input_file)
 
     # loop through all documentation lists.
     file_number = 0
+
     for documentation_list in files_documentations:
         if args.verbosity:
-            print(f'processing file no: {args.input_file[file_number]}')
+            print(f'processing file: {args.input_file[file_number]}')
 
         json_object_list = handle_documentation_list(documentation_list)
 
@@ -42,6 +53,13 @@ def natspec_to_json(args) -> None:
 
     if args.verbosity:
         print('processing finished!')
+
+
+def sentence_case(string):
+    if string != '':
+        result = re.sub('([A-Z])', r' \1', string)
+        return result[:1].upper() + result[1:].lower()
+    return
 
 def handle_documentation_list(documentation_list) -> List[Dict]:
     document_dicts = []
@@ -65,12 +83,17 @@ def handle_documentation(documentation) -> Dict[str, any]:
 
     # check if this item is a FreeForm text
     if documentation.__class__.__name__ == 'FreeForm':
-        doc_dict['type'] = 'text'
-        doc_dict['text'] = documentation.text
-        return doc_dict
+        if documentation.text:
+            doc_dict['type'] = 'text'
+            doc_dict['text'] = documentation.text
+            return doc_dict
+        else:
+            return None
     elif documentation.__class__.__name__ == 'Documentation':  # Documentation object
         if documentation.associated is not None:
             doc_dict['content'] = documentation.associated.block
+            doc_dict['id'] = documentation.associated.name
+            doc_dict['title'] = sentence_case(documentation.associated.name)
             function_names = ['function', 'definition', 'ghost variable', 'ghost function']
             other_names = ['summerization', 'import', 'use', 'using', 'hook']
 
@@ -92,7 +115,8 @@ def handle_documentation(documentation) -> Dict[str, any]:
                 param_dict = {'type': param[0], 'name': param[1]}
                 param_list.append(param_dict)
 
-            doc_dict['params'] = param_list
+            if param_list:
+                doc_dict['params'] = param_list
 
             # get the return data type
             ret_data = {}
@@ -150,6 +174,8 @@ def handle_tag(doc_dict, tag):
         doc_dict['notice'] = tag.description
     elif tag.kind == 'formula':
         doc_dict['formula'] = tag.description
+    elif tag.kind == 'dev':
+        doc_dict['dev'] = tag.description
     elif tag.kind == 'return':
         ret_data = doc_dict['return']
         ret_data['comment'] = tag.description
