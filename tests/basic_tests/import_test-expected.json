@@ -1,8 +1,7 @@
 [
     {
         "type": "text",
-        "header": "import_test.spec - define a spec file for the import statement",
-        "text": null
+        "text": "# import_test.spec - define a spec file for the import statement"
     },
     {
         "type": "unknown",

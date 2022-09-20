@@ -18,11 +18,12 @@ jobs:
             pytest natspec_tests.py
       - run:
           name: "Build wheel and source"
-          command: "python3 setup.py bdist_wheel sdist"
+          command: |
+            python3 setup.py bdist_wheel sdist
       - store_artifacts:
           path: dist
       - run:
-          name: Upload to Test PyPI
+          name: Upload to basic_tests PyPI
           command: |
             pip install --user twine
             python3 -m twine upload --skip-existing --verbose --repository testpypi -u ${TESTPYPI_USER} -p ${TESTPYPI_PASSWORD} dist/*

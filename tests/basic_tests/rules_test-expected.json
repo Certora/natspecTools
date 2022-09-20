@@ -1,11 +1,10 @@
 [
     {
         "type": "text",
-        "header": "Natspec for rules.\r\n * ## A testing file for rules definitions comments.\r\n * ## it contains rules with and without parameters\r\n",
-        "text": null
+        "text": "# Natspec for rules.\r\n * ## A testing file for rules definitions comments.\r\n * ## it contains rules with and without parameters\r\n"
     },
     {
-        "content": "{\r\n\r\n\tenv eF;\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse {\r\n\t\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;\r\n\r\n}",
+        "content": "env eF;\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse {\r\n\t\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;",
         "type": "rule",
         "params": [
             {
@@ -31,7 +30,7 @@
         "notice": " getting two addresses and a method.\nchecking if the sender is autorise to run the method."
     },
     {
-        "content": "{\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       env eF;\r\n\t\t   require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;\r\n}",
+        "content": "calldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       env eF;\r\n\t\t   require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;",
         "type": "rule",
         "params": [
             {
@@ -56,7 +55,7 @@
         "title": "Selector rule."
     },
     {
-        "content": "{\r\n\tcallF(d,x,f);\r\n\tassert false;\r\n}",
+        "content": "callF(d,x,f);\r\n\tassert false;",
         "type": "rule",
         "params": [
             {

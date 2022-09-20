@@ -31,7 +31,7 @@ rule onlyHolderOrApprovedCanReduceBalance(method f)
     assert balanceAfter < balanceBefore => e.msg.sender == holder || isApprovedForAll(holder, e.msg.sender), 
         "An account balance may only be reduced by the holder or a holder-approved agent";
 }
-
+        
 /// Burning a larger amount of a token must reduce that token's balance more 
 /// than burning a smaller amount.
 /// n.b. This rule holds for `burnBatch` as well due to rules establishing 

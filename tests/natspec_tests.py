@@ -6,8 +6,8 @@ from pathlib import Path
 import os
 
 #test_args = ['-v']
-#filenames = ['Test\\function_test.spec',
-#             'Test\\invariant_test.spec',
+#filenames = ['basic_tests\\function_test.spec',
+#             'basic_tests\\invariant_test.spec',
 #             'test\\rules_test.spec',
 #             'test\\import_test.spec',
 #             'test\\methods_test.spec',
@@ -42,28 +42,50 @@ def run_test_file(filename):
 
 
 def test_full_contract():
-    diff = run_test_file(str(Path('Test/full_contract.spec')))
+    diff = run_test_file(str(Path('basic_tests/full_contract.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 def test_invariant():
-    diff = run_test_file(str(Path('Test/invariant_test.spec')))
+    diff = run_test_file(str(Path('basic_tests/invariant_test.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 
 def test_function():
-    diff = run_test_file(str(Path('Test/function_test.spec')))
+    diff = run_test_file(str(Path('basic_tests/function_test.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
+def test_rules():
+    diff = run_test_file(str(Path('basic_tests/rules_test.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+def test_methods():
+    diff = run_test_file(str(Path('basic_tests/methods_test.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+def test_using():
+    diff = run_test_file(str(Path('basic_tests/using_test.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+def test_import():
+    diff = run_test_file(str(Path('basic_tests/import_test.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
 
 def test_burnable():
 
-    diff = run_test_file(str(Path('oz-tests/ERC1155Burnable.spec')))
+    diff = run_test_file(str(Path('customer_code/ERC1155Burnable.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
@@ -71,28 +93,53 @@ def test_burnable():
 
 def test_new():
 
-    diff = run_test_file(str(Path('oz-tests/ERC1155New.spec')))
+    diff = run_test_file(str(Path('customer_code/ERC1155New.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 
 def test_pausable():
-    diff = run_test_file(str(Path('oz-tests/ERC1155Pausable.spec')))
+    diff = run_test_file(str(Path('customer_code/ERC1155Pausable.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 
 def test_supply():
-    diff = run_test_file(str(Path('oz-tests/ERC1155Supply.spec')))
+    diff = run_test_file(str(Path('customer_code/ERC1155Supply.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+
+def test_governor():
+    diff = run_test_file(str(Path('customer_code/GovernorPreventLateQuorum.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
+
+def test_initializable():
+    diff = run_test_file(str(Path('customer_code/Initializable.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
 
 if __name__ == '__main__':
-    test_full_contract()
+    # perform basic tests
+    test_function()
     test_invariant()
+    test_rules()
+    test_import()
+    test_using()
+    test_full_contract()
+
+    # advanced tests
     test_burnable()
     test_new()
+    test_pausable()
+    test_supply()
+    test_governor()
+    test_initializable()

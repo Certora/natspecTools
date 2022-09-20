@@ -1,11 +1,10 @@
 [
     {
         "type": "text",
-        "header": "testing  NatSpec file for invariants contains all sort of invariants.",
-        "text": "# each invariant has a somewhat different tags associated with it."
+        "text": "# testing  NatSpec file for invariants contains all sort of invariants.\n# each invariant has a somewhat different tags associated with it."
     },
     {
-        "content": "",
+        "content": "preserved with(env e) {\r\n            require e.msg.sender != currentContract;\r\n        }",
         "type": "invariant",
         "params": [],
         "return": {
@@ -15,7 +14,7 @@
         "notice": "invariant to assure that the total supply is always under the balance amount.\nthe variant has no parameters."
     },
     {
-        "content": "",
+        "content": "preserved with(env e) {\r\n            require e.msg.sender != currentContract;\r\n        }",
         "type": "invariant",
         "params": [],
         "return": {
@@ -25,7 +24,7 @@
         "notice": "The total supply of the system si zero if and only if the balanceof the system is zero\nthe variant has no parameters"
     },
     {
-        "content": "",
+        "content": null,
         "type": "invariant",
         "params": [
             {
@@ -41,7 +40,7 @@
         "notice": "make sure that the proxy is not zero."
     },
     {
-        "content": "",
+        "content": null,
         "type": "invariant",
         "params": [
             {

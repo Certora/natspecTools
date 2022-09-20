@@ -1,8 +1,7 @@
 [
     {
         "type": "text",
-        "header": "using_test.spec - a NatSpec test file for using statement",
-        "text": null
+        "text": "# using_test.spec - a NatSpec test file for using statement"
     },
     {
         "type": "unknown"
