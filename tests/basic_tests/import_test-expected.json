@@ -6,7 +6,8 @@
     {
         "type": "unknown",
         "title": "import file with math helpers functions.",
-        "notice": "this is part of the Vax project.."
+        "notice": "this is part of the Vax project..",
+        "dev": "no backward compatibility  to version 1.0"
     },
     {
         "type": "unknown",

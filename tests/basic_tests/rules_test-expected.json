@@ -5,6 +5,8 @@
     },
     {
         "content": "env eF;\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse {\r\n\t\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;",
+        "id": "simple",
+        "title": "Simple rule for checking authorizations",
         "type": "rule",
         "params": [
             {
@@ -26,11 +28,13 @@
         "return": {
             "type": "None"
         },
-        "title": "Simple rule for checking authorizations",
-        "notice": " getting two addresses and a method.\nchecking if the sender is autorise to run the method."
+        "notice": " getting two addresses and a method.\nchecking if the sender is autorise to run the method.",
+        "dev": "Note: this is a parametric rule."
     },
     {
         "content": "calldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       env eF;\r\n\t\t   require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;",
+        "id": "simple2",
+        "title": "Selector rule.",
         "type": "rule",
         "params": [
             {
@@ -52,10 +56,12 @@
             "type": "None"
         },
         "notice": "# simple2 - another simple rule.",
-        "title": "Selector rule."
+        "dev": "this rule is testing the sinvoke function."
     },
     {
         "content": "callF(d,x,f);\r\n\tassert false;",
+        "id": "simple3",
+        "title": "simple3 - another simple rule.",
         "type": "rule",
         "params": [
             {
@@ -77,7 +83,7 @@
         "return": {
             "type": "None"
         },
-        "title": "simple3 - another simple rule.",
-        "notice": "this is a very short and simple rule"
+        "notice": "this is a very short and simple rule",
+        "dev": "this rule is testing the sinvoke function."
     }
 ]

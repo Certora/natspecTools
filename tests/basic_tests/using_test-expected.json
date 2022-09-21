@@ -4,10 +4,12 @@
         "text": "# using_test.spec - a NatSpec test file for using statement"
     },
     {
-        "type": "unknown"
+        "type": "unknown",
+        "dev": "bad contract abbreviation"
     },
     {
         "type": "unknown",
-        "title": "DummyERC20A"
+        "title": "DummyERC20A",
+        "dev": "Contract A !"
     }
 ]

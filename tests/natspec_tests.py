@@ -77,11 +77,12 @@ def test_using():
     if diff:
         pprint(diff, indent=4)
         assert 0
-def test_import():
-    diff = run_test_file(str(Path('basic_tests/import_test.spec')))
-    if diff:
-        pprint(diff, indent=4)
-        assert 0
+# not supported yet.
+# def test_import():
+#     diff = run_test_file(str(Path('basic_tests/import_test.spec')))
+#     if diff:
+#         pprint(diff, indent=4)
+#         assert 0
 
 def test_burnable():
 

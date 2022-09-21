@@ -92,8 +92,9 @@ def handle_documentation(documentation) -> Dict[str, any]:
     elif documentation.__class__.__name__ == 'Documentation':  # Documentation object
         if documentation.associated is not None:
             doc_dict['content'] = documentation.associated.block
-            doc_dict['id'] = documentation.associated.name
-            doc_dict['title'] = sentence_case(documentation.associated.name)
+            if documentation.associated.name is not None:
+                doc_dict['id'] = documentation.associated.name
+                doc_dict['title'] = sentence_case(documentation.associated.name)
             function_names = ['function', 'definition', 'ghost variable', 'ghost function']
             other_names = ['summerization', 'import', 'use', 'using', 'hook']
 

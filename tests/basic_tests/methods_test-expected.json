@@ -5,20 +5,20 @@
     },
     {
         "content": "get10PowerDecimals(uint8) returns(uint256) envfree",
-        "params": [],
         "return": {
             "type": "None"
         },
         "title": "mathematical helpe functions.",
-        "notice": "get the  power of 10 n decimal format"
+        "notice": "get the  power of 10 n decimal format",
+        "dev": "do not use this function on floating points."
     },
     {
         "content": "balanceOf(address) returns uint256\r\n\ttransfer(address,uint256) returns bool\r\n\ttransferFrom(address, address, uint256) returns bool\r\n\tapprove(address, uint256) returns bool\r\n\tallowance(address, address) returns uint256\r\n\ttotalSupply() returns uint256\r\n\t// Extended API - not implemented\r\n\tmint(address,uint256) returns bool\r\n\tburn(address,uint256)\r\n\towner() returns address\r\n\tpaused() returns bool",
-        "params": [],
         "return": {
             "type": "None"
         },
         "title": "Specification for core ERC20 tokens.",
-        "notice": "contains all ER20 Interface definitions."
+        "notice": "contains all ER20 Interface definitions.",
+        "dev": "includes some extended  interfaces that is not implemented yet."
     }
 ]

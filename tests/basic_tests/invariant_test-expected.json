@@ -5,26 +5,29 @@
     },
     {
         "content": "preserved with(env e) {\r\n            require e.msg.sender != currentContract;\r\n        }",
+        "id": "totalSupply_LE_balance",
+        "title": "totalSupply_LE_balance",
         "type": "invariant",
-        "params": [],
         "return": {
             "type": "None"
         },
-        "title": "totalSupply_LE_balance",
-        "notice": "invariant to assure that the total supply is always under the balance amount.\nthe variant has no parameters."
+        "notice": "invariant to assure that the total supply is always under the balance amount.\nthe variant has no parameters.",
+        "dev": "assume currentContract is initiated."
     },
     {
         "content": "preserved with(env e) {\r\n            require e.msg.sender != currentContract;\r\n        }",
+        "id": "totalSupply_vs_balance",
+        "title": "totalSupply_vs_balance",
         "type": "invariant",
-        "params": [],
         "return": {
             "type": "None"
         },
-        "title": "totalSupply_vs_balance",
         "notice": "The total supply of the system si zero if and only if the balanceof the system is zero\nthe variant has no parameters"
     },
     {
         "content": null,
+        "id": "proxyNotZero",
+        "title": "proxyNotZero",
         "type": "invariant",
         "params": [
             {
@@ -36,11 +39,13 @@
         "return": {
             "type": "None"
         },
-        "title": "proxyNotZero",
-        "notice": "make sure that the proxy is not zero."
+        "notice": "make sure that the proxy is not zero.",
+        "dev": "make use of 'getOrCreateProxy'"
     },
     {
         "content": null,
+        "id": "check",
+        "title": "check - check all addresses.",
         "type": "invariant",
         "params": [
             {
@@ -57,6 +62,6 @@
         "return": {
             "type": "None"
         },
-        "title": "check - check all addresses."
+        "dev": "make use of 'getVoteSigner' and 'isAccount'"
     }
 ]

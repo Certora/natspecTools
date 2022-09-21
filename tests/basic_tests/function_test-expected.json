@@ -5,6 +5,8 @@
     },
     {
         "content": "if (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t    env eF;\r\n\t\trequire (eF.msg.sender == x);\r\n        sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tcalldataarg arg;\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}",
+        "id": "callF",
+        "title": "Callf authorization function.",
         "type": "function",
         "params": [
             {
@@ -26,11 +28,13 @@
         "return": {
             "type": "None"
         },
-        "title": "Callf authorization function.",
-        "notice": "this function is part of the project and\nperforming authorization checks on some addresses."
+        "notice": "this function is part of the project and\nperforming authorization checks on some addresses.",
+        "dev": " the function is assuming the declaration  of 'autorizeVoteSigner\nfunction."
     },
     {
         "content": "uint8 age;\r\n    age, _, _ = getFullVoterDetails(e, voter);\r\n    return age;",
+        "id": "getVoterAge",
+        "title": "getVoterAge - get voter age.",
         "type": "function",
         "params": [
             {
@@ -48,11 +52,13 @@
             "type": "uint8",
             "comment": "the voter age."
         },
-        "title": "getVoterAge - get voter age.",
-        "notice": "this function decides if the sender is old enough to vote\nit uses the getFullVoterDetails function."
+        "notice": "this function decides if the sender is old enough to vote\nit uses the getFullVoterDetails function.",
+        "dev": " the function is assuming the declaration  of 'getFullVoterDetails'\nfunction."
     },
     {
         "content": "bool isReg;\r\n    _, isReg, _ = getFullVoterDetails(e, voter);\r\n    return isReg;",
+        "id": "getRegistered",
+        "title": "getRegistered - get registered.",
         "type": "function",
         "params": [
             {
@@ -70,6 +76,6 @@
             "type": "bool",
             "comment": "indication if the voter is registered."
         },
-        "title": "getRegistered - get registered."
+        "dev": " the function is assuming the declaration  of 'getFullVoterDetails'\nfunction."
     }
 ]
