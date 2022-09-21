@@ -1,37 +1,36 @@
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 NAME = "CVLDoc"
-VERSION = "0.1.4"
+VERSION = "0.1.5"
 
 if __name__ == "__main__":
-    setuptools.setup(
+    setup(
         name=NAME,
         version=VERSION,
         author="Certora ltd",
         author_email="support@certora.com",
-        description=" Utility for reading smart contracts files, parse and export their NatSpec comments to JSON files.",
+        description=" Utility for reading CERTORA spec files, parse and export their NatSpec comments to JSON files.",
         long_description=long_description,
         long_description_content_type="text/markdown",
-        keywords='Certora, CVLDoc',
+        keywords='Certora CVLDoc',
         url="https://github.com/Certora/natspecTools",
-        packages=setuptools.find_packages(),  # where='src'),
-        #package_dir={'': 'src'},
+        packages=find_packages('src'),
+        package_dir={'': 'src'},
         include_package_data=True,
-        # data_files=[('CVLDoc/examples', ['tests/basic_tests/definition_test.spec',
-        #                                  'tests/basic_tests/import_test.spec',
-        #                                  'tests/basic_tests/rules_test.spec',
-        #                                  'tests/basic_tests/full_contract.spec',
-        #                                  'tests/basic_tests/invariant_test.spec',
-        #                                  'tests/basic_tests/use_test.spec',
-        #                                  'tests/basic_tests/function_test.spec',
-        #                                  'tests/basic_tests/methods_test.spec',
-        #                                  'tests/basic_tests/using_test.spec'])],
+        data_files=[('src/CVLDoc/examples', ['tests/basic_tests/definition_test.spec',
+                                             'tests/basic_tests/import_test.spec',
+                                             'tests/basic_tests/rules_test.spec',
+                                             'tests/basic_tests/full_contract.spec',
+                                             'tests/basic_tests/invariant_test.spec',
+                                             'tests/basic_tests/use_test.spec',
+                                             'tests/basic_tests/function_test.spec',
+                                             'tests/basic_tests/methods_test.spec',
+                                             'tests/basic_tests/using_test.spec'])],
         install_requires=[
-            'cffi',
-            'natspec_parser==0.3.3'
+            'cvldoc_parser==0.4.0'
         ],
         classifiers=[
             "Programming Language :: Python :: 3",

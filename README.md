@@ -1,9 +1,9 @@
-# natspecTools
+# CVLDoc
 parse NatSpec comments from a spec file(s) and save them in a JSON file.
 
 ## usage
 
-natspec_to_json.py [-h] [-v] [-dev] [-user] [--version]
+CVLDoc.exe [-h] [-v] [-dev] [-user] [--version]
                           input_file [input_file ...]
 
 argument:

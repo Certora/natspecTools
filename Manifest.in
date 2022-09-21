@@ -1,2 +1,3 @@
 include README.md
-include tests/Test/*.spec
+include tests/basic_tests/*.spec
+include tests/customer_code/*.spec

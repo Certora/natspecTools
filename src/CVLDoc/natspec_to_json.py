@@ -7,7 +7,7 @@ import sys
 from collections import OrderedDict
 from typing import Any, Dict, List, Tuple, Optional, Set, BinaryIO
 from pathlib import Path
-import natspec_parser
+import cvldoc_parser
 
 
 def natspec_to_json(args) -> None:
@@ -30,7 +30,7 @@ def natspec_to_json(args) -> None:
 
     # The parse function returns a list of documentations list, one
     # list for each input file.
-    files_documentations = natspec_parser.parse(args.input_file)
+    files_documentations = cvldoc_parser.parse(args.input_file)
 
     # loop through all documentation lists.
     file_number = 0
