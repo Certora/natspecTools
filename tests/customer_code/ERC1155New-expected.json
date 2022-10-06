@@ -1,30 +1,30 @@
 [
     {
         "type": "text",
-        "text": "## Verification of ERC1155\r\n\r\n`ERC1155` establishes base level support\r\n[EIP1155](https://eips.ethereum.org/EIPS/eip-1155), a standard interface for\r\ncontracts that manage multiple token types. The contract was verified as part\r\nof previous work with OpenZeppelin and is included here for the purposes of\r\nincreased verification coverage with respect to token transfer methods.\r\n\r\n### Assumptions and Simplifications\r\n- Internal burn and mint methods are wrapped by CVT callable functions.\r\n\r\n### Properties\r\n\r\nThese properties are additions to the previous `ERC1155` verification.\r\nPlease see the file ERC1155.spec for earlier contract properties verified."
+        "text": "## Verification of ERC1155\n\n`ERC1155` establishes base level support\n[EIP1155](https://eips.ethereum.org/EIPS/eip-1155), a standard interface for\ncontracts that manage multiple token types. The contract was verified as part\nof previous work with OpenZeppelin and is included here for the purposes of\nincreased verification coverage with respect to token transfer methods.\n\n### Assumptions and Simplifications\n- Internal burn and mint methods are wrapped by CVT callable functions.\n\n### Properties\n\nThese properties are additions to the previous `ERC1155` verification.\nPlease see the file ERC1155.spec for earlier contract properties verified."
     },
     {
-        "content": "/// The result of transferring a single token must be equivalent whether done \r\n/// via safeTransferFrom or safeBatchTransferFrom.\r\n",
+        "content": "/// The result of transferring a single token must be equivalent whether done \n/// via safeTransferFrom or safeBatchTransferFrom.\n",
         "id": "singleTokenSafeTransferFromSafeBatchTransferFromEquivalence",
         "title": "Single token safe transfer from safe batch transfer from equivalence",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "The result of transferring a single token must be equivalent whether done\r\nvia safeTransferFrom or safeBatchTransferFrom."
+        "notice": "The result of transferring a single token must be equivalent whether done\nvia safeTransferFrom or safeBatchTransferFrom."
     },
     {
-        "content": "/// The results of transferring multiple tokens must be equivalent whether done \r\n/// separately via safeTransferFrom or together via safeBatchTransferFrom.\r\n",
+        "content": "/// The results of transferring multiple tokens must be equivalent whether done \n/// separately via safeTransferFrom or together via safeBatchTransferFrom.\n",
         "id": "multipleTokenSafeTransferFromSafeBatchTransferFromEquivalence",
         "title": "Multiple token safe transfer from safe batch transfer from equivalence",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "The results of transferring multiple tokens must be equivalent whether done\r\nseparately via safeTransferFrom or together via safeBatchTransferFrom."
+        "notice": "The results of transferring multiple tokens must be equivalent whether done\nseparately via safeTransferFrom or together via safeBatchTransferFrom."
     },
     {
-        "content": "/// If transfer methods do not revert, the input arrays must be the same length.\r\n",
+        "content": "/// If transfer methods do not revert, the input arrays must be the same length.\n",
         "id": "transfersHaveSameLengthInputArrays",
         "title": "Transfers have same length input arrays",
         "type": "rule",

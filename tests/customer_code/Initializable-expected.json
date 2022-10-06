@@ -1,7 +1,7 @@
 [
     {
         "type": "text",
-        "text": "## Verification of Initializable\r\n\r\n`Initializable` is a contract used to make constructors for upgradeable\r\ncontracts. This is accomplished by applying the `initializer` modifier to any\r\nfunction that serves as a constructor, which makes this function only\r\ncallable once. The secondary modifier `reinitializer` allows for upgrades\r\nthat change the contract's initializations.\r\n\r\n\r\n### Assumptions and Simplifications\r\nWe assume `initializer()` and `reinitializer(1)` are equivalent if they\r\nboth guarentee `_initialized` to be set to 1 after a successful call. This\r\nallows us to use `reinitializer(n)` as a general version that also handles\r\nthe regular `initialzer` case.\r\n\r\n#### Harnessing\r\nTwo harness versions were implemented, a simple flat contract, and a\r\nMulti-inheriting contract. The two versions together help us ensure there are\r\nNo unexpected results because of different implementions. Initializable can\r\nBe used in many different ways but we believe these 2 cases provide good\r\nCoverage for all cases. In both harnesses we use getter functions for\r\n`_initialized` and `_initializing` and implement  `initializer` and\r\n`reinitializer` functions that use their respective modifiers. We also\r\nImplement some versioned functions that are only callable in specific\r\nVersions of the contract to mimick upgrading contracts.\r\n\r\n#### Munging\r\nVariables `_initialized` and `_initializing` were changed to have internal\r\nvisibility to be harnessable."
+        "text": "## Verification of Initializable\n\n`Initializable` is a contract used to make constructors for upgradeable\ncontracts. This is accomplished by applying the `initializer` modifier to any\nfunction that serves as a constructor, which makes this function only\ncallable once. The secondary modifier `reinitializer` allows for upgrades\nthat change the contract's initializations.\n\n\n### Assumptions and Simplifications\nWe assume `initializer()` and `reinitializer(1)` are equivalent if they\nboth guarentee `_initialized` to be set to 1 after a successful call. This\nallows us to use `reinitializer(n)` as a general version that also handles\nthe regular `initialzer` case.\n\n#### Harnessing\nTwo harness versions were implemented, a simple flat contract, and a\nMulti-inheriting contract. The two versions together help us ensure there are\nNo unexpected results because of different implementions. Initializable can\nBe used in many different ways but we believe these 2 cases provide good\nCoverage for all cases. In both harnesses we use getter functions for\n`_initialized` and `_initializing` and implement  `initializer` and\n`reinitializer` functions that use their respective modifiers. We also\nImplement some versioned functions that are only callable in specific\nVersions of the contract to mimick upgrading contracts.\n\n#### Munging\nVariables `_initialized` and `_initializing` were changed to have internal\nvisibility to be harnessable."
     },
     {
         "type": "text",
@@ -32,37 +32,37 @@
         "text": "### Properties"
     },
     {
-        "content": "/// A contract must only ever be in an initializing state while in the middle\r\n/// of a transaction execution.\r\n",
+        "content": "/// A contract must only ever be in an initializing state while in the middle\n/// of a transaction execution.\n",
         "id": "notInitializing",
         "title": "Not initializing",
         "type": "invariant",
         "return": {
             "type": "None"
         },
-        "notice": "A contract must only ever be in an initializing state while in the middle\r\nof a transaction execution."
+        "notice": "A contract must only ever be in an initializing state while in the middle\nof a transaction execution."
     },
     {
-        "content": "/// @title Only initialized once\r\n/// @notice An initializable contract with a function that inherits the\r\n///         initializer modifier must be initializable only once\r\n",
+        "content": "/// @title Only initialized once\n/// @notice An initializable contract with a function that inherits the\n///         initializer modifier must be initializable only once\n",
         "id": "initOnce",
         "title": "Only initialized once",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "An initializable contract with a function that inherits the\r\ninitializer modifier must be initializable only once"
+        "notice": "An initializable contract with a function that inherits the\ninitializer modifier must be initializable only once"
     },
     {
-        "content": "/// Successfully calling reinitialize() with a version value of 1 must result\r\n/// in `_initialized` being set to 1.\r\n",
+        "content": "/// Successfully calling reinitialize() with a version value of 1 must result\n/// in `_initialized` being set to 1.\n",
         "id": "reinitializeEffects",
         "title": "Reinitialize effects",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "Successfully calling reinitialize() with a version value of 1 must result\r\nin `_initialized` being set to 1."
+        "notice": "Successfully calling reinitialize() with a version value of 1 must result\nin `_initialized` being set to 1."
     },
     {
-        "content": "/// Successfully calling `initalize()` must result in `_initialized` being set to 1.\r\n/// @dev We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\r\n///      and the [above rule][#reinitalizeEffects] both pass.\r\n",
+        "content": "/// Successfully calling `initalize()` must result in `_initialized` being set to 1.\n/// @dev We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\n///      and the [above rule][#reinitalizeEffects] both pass.\n",
         "id": "initalizeEffects",
         "title": "Initalize effects",
         "type": "rule",
@@ -70,10 +70,10 @@
             "type": "None"
         },
         "notice": "Successfully calling `initalize()` must result in `_initialized` being set to 1.",
-        "dev": "We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\r\nand the [above rule][#reinitalizeEffects] both pass."
+        "dev": "We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\nand the [above rule][#reinitalizeEffects] both pass."
     },
     {
-        "content": "/// A disabled initializable contract must always stay disabled.\r\n",
+        "content": "/// A disabled initializable contract must always stay disabled.\n",
         "id": "disabledStaysDisabled",
         "title": "Disabled stays disabled",
         "type": "rule",
@@ -89,7 +89,7 @@
         "notice": "A disabled initializable contract must always stay disabled."
     },
     {
-        "content": "/// The variable `_initialized` must not decrease.\r\n",
+        "content": "/// The variable `_initialized` must not decrease.\n",
         "id": "increasingInitialized",
         "title": "Increasing initialized",
         "type": "rule",
@@ -105,67 +105,67 @@
         "notice": "The variable `_initialized` must not decrease."
     },
     {
-        "content": "/// If `reinitialize(...)` was called successfuly, then the variable\r\n/// `_initialized` must increase.\r\n",
+        "content": "/// If `reinitialize(...)` was called successfuly, then the variable\n/// `_initialized` must increase.\n",
         "id": "reinitializeIncreasesInit",
         "title": "Reinitialize increases init",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "If `reinitialize(...)` was called successfuly, then the variable\r\n`_initialized` must increase."
+        "notice": "If `reinitialize(...)` was called successfuly, then the variable\n`_initialized` must increase."
     },
     {
-        "content": "/// `reinitialize(n)` must be callable if the contract is not in an\r\n/// `_initializing` state and `n` is greater than `_initialized` and less than\r\n/// 255\r\n",
+        "content": "/// `reinitialize(n)` must be callable if the contract is not in an\n/// `_initializing` state and `n` is greater than `_initialized` and less than\n/// 255\n",
         "id": "reinitializeLiveness",
         "title": "Reinitialize liveness",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "`reinitialize(n)` must be callable if the contract is not in an\r\n`_initializing` state and `n` is greater than `_initialized` and less than\r\n255"
+        "notice": "`reinitialize(n)` must be callable if the contract is not in an\n`_initializing` state and `n` is greater than `_initialized` and less than\n255"
     },
     {
-        "content": "/// If `reinitialize(n)` was called successfully then `n` was greater than\r\n/// `_initialized`.\r\n",
+        "content": "/// If `reinitialize(n)` was called successfully then `n` was greater than\n/// `_initialized`.\n",
         "id": "reinitializeRule",
         "title": "Reinitialize rule",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "If `reinitialize(n)` was called successfully then `n` was greater than\r\n`_initialized`."
+        "notice": "If `reinitialize(n)` was called successfully then `n` was greater than\n`_initialized`."
     },
     {
-        "content": "/// Functions implemented in the parent contract that require `_initialized` to\r\n/// be a certain value are only callable when it is that value. \r\n",
+        "content": "/// Functions implemented in the parent contract that require `_initialized` to\n/// be a certain value are only callable when it is that value. \n",
         "id": "reinitVersionCheckParent",
         "title": "Reinit version check parent",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "Functions implemented in the parent contract that require `_initialized` to\r\nbe a certain value are only callable when it is that value."
+        "notice": "Functions implemented in the parent contract that require `_initialized` to\nbe a certain value are only callable when it is that value."
     },
     {
-        "content": "/// Functions implemented in the child contract that require `_initialized` to\r\n/// be a certain value are only callable when it is that value.\r\n",
+        "content": "/// Functions implemented in the child contract that require `_initialized` to\n/// be a certain value are only callable when it is that value.\n",
         "id": "reinitVersionCheckChild",
         "title": "Reinit version check child",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "Functions implemented in the child contract that require `_initialized` to\r\nbe a certain value are only callable when it is that value."
+        "notice": "Functions implemented in the child contract that require `_initialized` to\nbe a certain value are only callable when it is that value."
     },
     {
-        "content": "/// Functions implemented in the grandchild contract that require `_initialized`\r\n/// to be a certain value are only callable when it is that value.\r\n",
+        "content": "/// Functions implemented in the grandchild contract that require `_initialized`\n/// to be a certain value are only callable when it is that value.\n",
         "id": "reinitVersionCheckGrandchild",
         "title": "Reinit version check grandchild",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "Functions implemented in the grandchild contract that require `_initialized`\r\nto be a certain value are only callable when it is that value."
+        "notice": "Functions implemented in the grandchild contract that require `_initialized`\nto be a certain value are only callable when it is that value."
     },
     {
-        "content": "/// Calling parent initalizer function must initialize all child contracts.\r\n",
+        "content": "/// Calling parent initalizer function must initialize all child contracts.\n",
         "id": "inheritanceCheck",
         "title": "Inheritance check",
         "type": "rule",

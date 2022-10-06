@@ -21,7 +21,14 @@ import os
 
 # rnu a single test file
 
-
+def omit_cr_from_file(filename):
+    with open(filename, 'r+') as f:
+        content = f.read()
+        content = content.replace('\\r\\n', '\\n')
+        f.seek(0, os.SEEK_SET)
+        f.truncate(0)
+        f.write(content)
+        f.close()
 
 
 def run_test_file(filename):
@@ -33,6 +40,8 @@ def run_test_file(filename):
     input_filename, file_extension = os.path.splitext(filename)
     output_filename = os.path.join(input_filename + '-natspec' + '.json')
     expected_filename = os.path.join(input_filename + '-expected' + '.json')
+    omit_cr_from_file(output_filename)
+    omit_cr_from_file(expected_filename)
     file_output = open(output_filename)
     file_expected = open(expected_filename)
     output_data = json.load(file_output)
@@ -133,8 +142,8 @@ if __name__ == '__main__':
     test_function()
     test_invariant()
     test_rules()
-    test_import()
-    test_using()
+#    test_import()
+#    test_using()
     test_full_contract()
 
     # advanced tests

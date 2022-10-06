@@ -1,10 +1,10 @@
 [
     {
         "type": "text",
-        "text": "## Verification of ERC1155Supply\r\n\r\n`ERC1155Supply` extends the `ERC1155` functionality. The contract creates a publicly callable `totalSupply` wrapper for the private `_totalSupply` method, a public `exists` method to check for a positive balance of a given token, and updates `_beforeTokenTransfer` to appropriately change the mapping `_totalSupply` in the context of minting and burning tokens.\r\n\r\n### Assumptions and Simplifications\r\n- The `exists` method was wrapped in the `exists_wrapper` method because `exists` is a keyword in CVL.\r\n- The public functions `burn`, `burnBatch`, `mint`, and `mintBatch` were implemented in the harnesssing contract make their respective internal functions callable by the CVL. This was used to test the increase and decrease of `totalSupply` when tokens are minted and burned.\r\n- We created the `onlyOwner` modifier to be used in the above functions so that they are not called in unrelated rules.\r\n\r\n### Properties"
+        "text": "## Verification of ERC1155Supply\n\n`ERC1155Supply` extends the `ERC1155` functionality. The contract creates a publicly callable `totalSupply` wrapper for the private `_totalSupply` method, a public `exists` method to check for a positive balance of a given token, and updates `_beforeTokenTransfer` to appropriately change the mapping `_totalSupply` in the context of minting and burning tokens.\n\n### Assumptions and Simplifications\n- The `exists` method was wrapped in the `exists_wrapper` method because `exists` is a keyword in CVL.\n- The public functions `burn`, `burnBatch`, `mint`, and `mintBatch` were implemented in the harnesssing contract make their respective internal functions callable by the CVL. This was used to test the increase and decrease of `totalSupply` when tokens are minted and burned.\n- We created the `onlyOwner` modifier to be used in the above functions so that they are not called in unrelated rules.\n\n### Properties"
     },
     {
-        "content": "/// Given two different token ids, if totalSupply for one changes, then\r\n/// totalSupply for other must not.\r\n",
+        "content": "/// Given two different token ids, if totalSupply for one changes, then\n/// totalSupply for other must not.\n",
         "id": "token_totalSupply_independence",
         "title": "Token_total supply_independence",
         "type": "rule",
@@ -17,14 +17,14 @@
         "return": {
             "type": "None"
         },
-        "notice": "Given two different token ids, if totalSupply for one changes, then\r\ntotalSupply for other must not."
+        "notice": "Given two different token ids, if totalSupply for one changes, then\ntotalSupply for other must not."
     },
     {
         "type": "text",
-        "text": "/\r\n\r\nghost mapping(uint256 => mathint) sumOfBalances {\r\n    init_state axiom forall uint256 token . sumOfBalances[token] == 0;\r\n}\r\n\r\nhook Sstore _balances[KEY uint256 token][KEY address user] uint256 newValue (uint256 oldValue) STORAGE {\r\n    sumOfBalances[token] = sumOfBalances[token] + newValue - oldValue;\r\n}\r\n\r\n/// The sum of the balances over all users must equal the total supply for a \r\n/// given token.\r\ninvariant total_supply_is_sum_of_balances(uint256 token)\r\n    sumOfBalances[token] == totalSupply(token)\r\n    {\r\n        preserved {\r\n            requireInvariant balanceOfZeroAddressIsZero(token);\r\n        }\r\n    }\r\n\r\n/"
+        "text": "/\n\nghost mapping(uint256 => mathint) sumOfBalances {\n    init_state axiom forall uint256 token . sumOfBalances[token] == 0;\n}\n\nhook Sstore _balances[KEY uint256 token][KEY address user] uint256 newValue (uint256 oldValue) STORAGE {\n    sumOfBalances[token] = sumOfBalances[token] + newValue - oldValue;\n}\n\n/// The sum of the balances over all users must equal the total supply for a \n/// given token.\ninvariant total_supply_is_sum_of_balances(uint256 token)\n    sumOfBalances[token] == totalSupply(token)\n    {\n        preserved {\n            requireInvariant balanceOfZeroAddressIsZero(token);\n        }\n    }\n\n/"
     },
     {
-        "content": "/// The balance of a token for the zero address must be zero.\r\n",
+        "content": "/// The balance of a token for the zero address must be zero.\n",
         "id": "balanceOfZeroAddressIsZero",
         "title": "Balance of zero address is zero",
         "type": "invariant",
@@ -40,7 +40,7 @@
         "notice": "The balance of a token for the zero address must be zero."
     },
     {
-        "content": "/// If a user has a token, then the token should exist.\r\n",
+        "content": "/// If a user has a token, then the token should exist.\n",
         "id": "held_tokens_should_exist",
         "title": "Held_tokens_should_exist",
         "type": "rule",
@@ -51,6 +51,6 @@
     },
     {
         "type": "text",
-        "text": "/\r\n/*\r\nrule sanity {\r\n    method f; env e; calldataarg args;\r\n\r\n    f(e, args);\r\n\r\n    assert false;\r\n}\r\n"
+        "text": "/\n/*\nrule sanity {\n    method f; env e; calldataarg args;\n\n    f(e, args);\n\n    assert false;\n}\n"
     }
 ]

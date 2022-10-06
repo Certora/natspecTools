@@ -1,20 +1,20 @@
 [
     {
         "type": "text",
-        "text": "## Verification of ERC1155Pausable\r\n\r\n`ERC1155Pausable` extends existing `Pausable` functionality by requiring that a\r\ncontract not be in a `paused` state prior to a token transfer.\r\n\r\n### Assumptions and Simplifications\r\n- Internal methods `_pause` and `_unpause` wrapped in CVT callable versions\r\n- Dummy functions created to verify `whenPaused` and `whenNotPaused` modifiers\r\n\r\n\r\n### Properties"
+        "text": "## Verification of ERC1155Pausable\n\n`ERC1155Pausable` extends existing `Pausable` functionality by requiring that a\ncontract not be in a `paused` state prior to a token transfer.\n\n### Assumptions and Simplifications\n- Internal methods `_pause` and `_unpause` wrapped in CVT callable versions\n- Dummy functions created to verify `whenPaused` and `whenNotPaused` modifiers\n\n\n### Properties"
     },
     {
-        "content": "/// When a contract is in a paused state, the token balance for a given user and\r\n/// token must not change.\r\n",
+        "content": "/// When a contract is in a paused state, the token balance for a given user and\n/// token must not change.\n",
         "id": "balancesUnchangedWhenPaused",
         "title": "Balances unchanged when paused",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "When a contract is in a paused state, the token balance for a given user and\r\ntoken must not change."
+        "notice": "When a contract is in a paused state, the token balance for a given user and\ntoken must not change."
     },
     {
-        "content": "/// When a contract is in a paused state, transfer methods must revert.\r\n",
+        "content": "/// When a contract is in a paused state, transfer methods must revert.\n",
         "id": "transferMethodsRevertWhenPaused",
         "title": "Transfer methods revert when paused",
         "type": "rule",
@@ -30,7 +30,7 @@
         "notice": "When a contract is in a paused state, transfer methods must revert."
     },
     {
-        "content": "/// When a contract is in an unpaused state, calling pause() must pause.\r\n",
+        "content": "/// When a contract is in an unpaused state, calling pause() must pause.\n",
         "id": "pauseMethodPausesContract",
         "title": "Pause method pauses contract",
         "type": "rule",
@@ -40,7 +40,7 @@
         "notice": "When a contract is in an unpaused state, calling pause() must pause."
     },
     {
-        "content": "/// When a contract is in a paused state, calling unpause() must unpause.\r\n",
+        "content": "/// When a contract is in a paused state, calling unpause() must unpause.\n",
         "id": "unpauseMethodUnpausesContract",
         "title": "Unpause method unpauses contract",
         "type": "rule",
@@ -50,7 +50,7 @@
         "notice": "When a contract is in a paused state, calling unpause() must unpause."
     },
     {
-        "content": "/// When a contract is in a paused state, calling pause() must revert.\r\n",
+        "content": "/// When a contract is in a paused state, calling pause() must revert.\n",
         "id": "cannotPauseWhilePaused",
         "title": "Cannot pause while paused",
         "type": "rule",
@@ -60,7 +60,7 @@
         "notice": "When a contract is in a paused state, calling pause() must revert."
     },
     {
-        "content": "/// When a contract is in an unpaused state, calling unpause() must revert.\r\n",
+        "content": "/// When a contract is in an unpaused state, calling unpause() must revert.\n",
         "id": "cannotUnpauseWhileUnpaused",
         "title": "Cannot unpause while unpaused",
         "type": "rule",
@@ -70,23 +70,23 @@
         "notice": "When a contract is in an unpaused state, calling unpause() must revert."
     },
     {
-        "content": "/// When a contract is in a paused state, functions with the whenNotPaused \r\n/// modifier must revert.\r\n",
+        "content": "/// When a contract is in a paused state, functions with the whenNotPaused \n/// modifier must revert.\n",
         "id": "whenNotPausedModifierCausesRevertIfPaused",
         "title": "When not paused modifier causes revert if paused",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "When a contract is in a paused state, functions with the whenNotPaused\r\nmodifier must revert."
+        "notice": "When a contract is in a paused state, functions with the whenNotPaused\nmodifier must revert."
     },
     {
-        "content": "/// When a contract is in an unpaused state, functions with the whenPaused \r\n/// modifier must revert.\r\n",
+        "content": "/// When a contract is in an unpaused state, functions with the whenPaused \n/// modifier must revert.\n",
         "id": "whenPausedModifierCausesRevertIfUnpaused",
         "title": "When paused modifier causes revert if unpaused",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "When a contract is in an unpaused state, functions with the whenPaused\r\nmodifier must revert."
+        "notice": "When a contract is in an unpaused state, functions with the whenPaused\nmodifier must revert."
     }
 ]

@@ -1,10 +1,10 @@
 [
     {
         "type": "text",
-        "text": "# Natspec for rules.\r\n * ## A testing file for rules definitions comments.\r\n * ## it contains rules with and without parameters\r\n"
+        "text": "# Natspec for rules.\n * ## A testing file for rules definitions comments.\n * ## it contains rules with and without parameters\n"
     },
     {
-        "content": "/**\r\n  * @title Simple rule for checking authorizations\r\n  * @notice  getting two addresses and a method.\r\n  * checking if the sender is autorise to run the method.\r\n  * @dev Note: this is a parametric rule.\r\n  * @param d - the address of the sender\r\n  * @param x - the address of the function invoker\r\n  * @param f - the function to be invoked.\r\n  **/",
+        "content": "/**\n  * @title Simple rule for checking authorizations\n  * @notice  getting two addresses and a method.\n  * checking if the sender is autorise to run the method.\n  * @dev Note: this is a parametric rule.\n  * @param d - the address of the sender\n  * @param x - the address of the function invoker\n  * @param f - the function to be invoked.\n  **/",
         "id": "simple",
         "title": "Simple rule for checking authorizations",
         "type": "rule",
@@ -28,11 +28,11 @@
         "return": {
             "type": "None"
         },
-        "notice": "getting two addresses and a method.\r\nchecking if the sender is autorise to run the method.",
+        "notice": "getting two addresses and a method.\nchecking if the sender is autorise to run the method.",
         "dev": "Note: this is a parametric rule."
     },
     {
-        "content": "/** # simple2 - another simple rule.\r\n  * @title Selector rule.\r\n  * @dev this rule is testing the sinvoke function.\r\n  * @param d the address of the sender.\r\n  * @param x the address of the receiver\r\n  * @param ff - this doesn't exist.\r\n  **/",
+        "content": "/** # simple2 - another simple rule.\n  * @title Selector rule.\n  * @dev this rule is testing the sinvoke function.\n  * @param d the address of the sender.\n  * @param x the address of the receiver\n  * @param ff - this doesn't exist.\n  **/",
         "id": "simple2",
         "title": "Selector rule.",
         "type": "rule",
@@ -59,7 +59,7 @@
         "dev": "this rule is testing the sinvoke function."
     },
     {
-        "content": "/**\r\n  * @title simple3 - another simple rule.\r\n  * @notice this is a very short and simple rule\r\n  * @dev this rule is testing the sinvoke function.\r\n  * @param d the first address.\r\n  * @param x the second address.\r\n  * @param f - the method that is being tested.\r\n  **/",
+        "content": "/**\n  * @title simple3 - another simple rule.\n  * @notice this is a very short and simple rule\n  * @dev this rule is testing the sinvoke function.\n  * @param d the first address.\n  * @param x the second address.\n  * @param f - the method that is being tested.\n  **/",
         "id": "simple3",
         "title": "simple3 - another simple rule.",
         "type": "rule",

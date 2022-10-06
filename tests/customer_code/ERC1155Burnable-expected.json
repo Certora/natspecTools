@@ -1,10 +1,10 @@
 [
     {
         "type": "text",
-        "text": "## Verification of ERC1155Burnable\r\n\r\n`ERC1155Burnable` extends the `ERC1155` functionality by wrapping the internal\r\nmethods `_burn` and `_burnBatch` in the public methods `burn` and `burnBatch`,\r\nadding a requirement that the caller of either method be the account holding\r\nthe tokens or approved to act on that account's behalf.\r\n\r\n### Assumptions and Simplifications\r\n\r\n- No changes made using the harness\r\n\r\n### Properties"
+        "text": "## Verification of ERC1155Burnable\n\n`ERC1155Burnable` extends the `ERC1155` functionality by wrapping the internal\nmethods `_burn` and `_burnBatch` in the public methods `burn` and `burnBatch`,\nadding a requirement that the caller of either method be the account holding\nthe tokens or approved to act on that account's behalf.\n\n### Assumptions and Simplifications\n\n- No changes made using the harness\n\n### Properties"
     },
     {
-        "content": "/// If a method call reduces account balances, the caller must be either the \r\n/// holder of the account or approved to act on the holder's behalf.\r\n",
+        "content": "/// If a method call reduces account balances, the caller must be either the \n/// holder of the account or approved to act on the holder's behalf.\n",
         "id": "onlyHolderOrApprovedCanReduceBalance",
         "title": "Only holder or approved can reduce balance",
         "type": "rule",
@@ -17,56 +17,56 @@
         "return": {
             "type": "None"
         },
-        "notice": "If a method call reduces account balances, the caller must be either the\r\nholder of the account or approved to act on the holder's behalf."
+        "notice": "If a method call reduces account balances, the caller must be either the\nholder of the account or approved to act on the holder's behalf."
     },
     {
-        "content": "/// Burning a larger amount of a token must reduce that token's balance more \r\n/// than burning a smaller amount.\r\n/// n.b. This rule holds for `burnBatch` as well due to rules establishing \r\n/// appropriate equivance between `burn` and `burnBatch` methods.\r\n",
+        "content": "/// Burning a larger amount of a token must reduce that token's balance more \n/// than burning a smaller amount.\n/// n.b. This rule holds for `burnBatch` as well due to rules establishing \n/// appropriate equivance between `burn` and `burnBatch` methods.\n",
         "id": "burnAmountProportionalToBalanceReduction",
         "title": "Burn amount proportional to balance reduction",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "Burning a larger amount of a token must reduce that token's balance more\r\nthan burning a smaller amount.\r\nn.b. This rule holds for `burnBatch` as well due to rules establishing\r\nappropriate equivance between `burn` and `burnBatch` methods."
+        "notice": "Burning a larger amount of a token must reduce that token's balance more\nthan burning a smaller amount.\nn.b. This rule holds for `burnBatch` as well due to rules establishing\nappropriate equivance between `burn` and `burnBatch` methods."
     },
     {
-        "content": "/// Two sequential burns must be equivalent to a single burn of the sum of their\r\n/// amounts.\r\n/// This rule holds for `burnBatch` as well due to rules establishing \r\n/// appropriate equivance between `burn` and `burnBatch` methods.\r\n",
+        "content": "/// Two sequential burns must be equivalent to a single burn of the sum of their\n/// amounts.\n/// This rule holds for `burnBatch` as well due to rules establishing \n/// appropriate equivance between `burn` and `burnBatch` methods.\n",
         "id": "sequentialBurnsEquivalentToSingleBurnOfSum",
         "title": "Sequential burns equivalent to single burn of sum",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "Two sequential burns must be equivalent to a single burn of the sum of their\r\namounts.\r\nThis rule holds for `burnBatch` as well due to rules establishing\r\nappropriate equivance between `burn` and `burnBatch` methods."
+        "notice": "Two sequential burns must be equivalent to a single burn of the sum of their\namounts.\nThis rule holds for `burnBatch` as well due to rules establishing\nappropriate equivance between `burn` and `burnBatch` methods."
     },
     {
-        "content": "/// The result of burning a single token must be equivalent whether done via\r\n/// burn or burnBatch.\r\n",
+        "content": "/// The result of burning a single token must be equivalent whether done via\n/// burn or burnBatch.\n",
         "id": "singleTokenBurnBurnBatchEquivalence",
         "title": "Single token burn burn batch equivalence",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "The result of burning a single token must be equivalent whether done via\r\nburn or burnBatch."
+        "notice": "The result of burning a single token must be equivalent whether done via\nburn or burnBatch."
     },
     {
-        "content": "/// The results of burning multiple tokens must be equivalent whether done \r\n/// separately via burn or together via burnBatch.\r\n",
+        "content": "/// The results of burning multiple tokens must be equivalent whether done \n/// separately via burn or together via burnBatch.\n",
         "id": "multipleTokenBurnBurnBatchEquivalence",
         "title": "Multiple token burn burn batch equivalence",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "The results of burning multiple tokens must be equivalent whether done\r\nseparately via burn or together via burnBatch."
+        "notice": "The results of burning multiple tokens must be equivalent whether done\nseparately via burn or together via burnBatch."
     },
     {
-        "content": "/// If passed empty token and burn amount arrays, burnBatch must not change \r\n/// token balances or address permissions.\r\n",
+        "content": "/// If passed empty token and burn amount arrays, burnBatch must not change \n/// token balances or address permissions.\n",
         "id": "burnBatchOnEmptyArraysChangesNothing",
         "title": "Burn batch on empty arrays changes nothing",
         "type": "rule",
         "return": {
             "type": "None"
         },
-        "notice": "If passed empty token and burn amount arrays, burnBatch must not change\r\ntoken balances or address permissions."
+        "notice": "If passed empty token and burn amount arrays, burnBatch must not change\ntoken balances or address permissions."
     }
 ]

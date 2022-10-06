@@ -1,10 +1,10 @@
 [
     {
         "type": "text",
-        "text": "#  Function testing.\r\n# This function is testing the invoking process\r\n# part of the Fahrenheit project"
+        "text": "#  Function testing.\n# This function is testing the invoking process\n# part of the Fahrenheit project"
     },
     {
-        "content": "/**\r\n * @title Callf authorization function.\r\n * @notice this function is part of the project and\r\n * performing authorization checks on some addresses.\r\n * @dev  the function is assuming the declaration  of 'autorizeVoteSigner\r\n * function.\r\n * @param d the first address\r\n * @param x the unkown signer address\r\n * @param f the signing function.\r\n */",
+        "content": "/**\n * @title Callf authorization function.\n * @notice this function is part of the project and\n * performing authorization checks on some addresses.\n * @dev  the function is assuming the declaration  of 'autorizeVoteSigner\n * function.\n * @param d the first address\n * @param x the unkown signer address\n * @param f the signing function.\n */",
         "id": "callF",
         "title": "Callf authorization function.",
         "type": "function",
@@ -28,11 +28,11 @@
         "return": {
             "type": "None"
         },
-        "notice": "this function is part of the project and\r\nperforming authorization checks on some addresses.",
-        "dev": "the function is assuming the declaration  of 'autorizeVoteSigner\r\nfunction."
+        "notice": "this function is part of the project and\nperforming authorization checks on some addresses.",
+        "dev": "the function is assuming the declaration  of 'autorizeVoteSigner\nfunction."
     },
     {
-        "content": "/**\r\n * @title getVoterAge - get voter age.\r\n * @notice this function decides if the sender is old enough to vote\r\n * it uses the getFullVoterDetails function.\r\n * @dev  the function is assuming the declaration  of 'getFullVoterDetails'\r\n * function.\r\n * @param e the used environment\r\n * @param voter - the prospect voter address\r\n * @return the voter age.\r\n */",
+        "content": "/**\n * @title getVoterAge - get voter age.\n * @notice this function decides if the sender is old enough to vote\n * it uses the getFullVoterDetails function.\n * @dev  the function is assuming the declaration  of 'getFullVoterDetails'\n * function.\n * @param e the used environment\n * @param voter - the prospect voter address\n * @return the voter age.\n */",
         "id": "getVoterAge",
         "title": "getVoterAge - get voter age.",
         "type": "function",
@@ -52,11 +52,11 @@
             "type": "uint8",
             "comment": "the voter age."
         },
-        "notice": "this function decides if the sender is old enough to vote\r\nit uses the getFullVoterDetails function.",
-        "dev": "the function is assuming the declaration  of 'getFullVoterDetails'\r\nfunction."
+        "notice": "this function decides if the sender is old enough to vote\nit uses the getFullVoterDetails function.",
+        "dev": "the function is assuming the declaration  of 'getFullVoterDetails'\nfunction."
     },
     {
-        "content": "/**\r\n * @title getRegistered - get registered.\r\n * @dev  the function is assuming the declaration  of 'getFullVoterDetails'\r\n * function.\r\n * @param e the used environment\r\n * @param voter - the prospect voter address\r\n * @return indication if the voter is registered.\r\n */",
+        "content": "/**\n * @title getRegistered - get registered.\n * @dev  the function is assuming the declaration  of 'getFullVoterDetails'\n * function.\n * @param e the used environment\n * @param voter - the prospect voter address\n * @return indication if the voter is registered.\n */",
         "id": "getRegistered",
         "title": "getRegistered - get registered.",
         "type": "function",
@@ -76,6 +76,6 @@
             "type": "bool",
             "comment": "indication if the voter is registered."
         },
-        "dev": "the function is assuming the declaration  of 'getFullVoterDetails'\r\nfunction."
+        "dev": "the function is assuming the declaration  of 'getFullVoterDetails'\nfunction."
     }
 ]

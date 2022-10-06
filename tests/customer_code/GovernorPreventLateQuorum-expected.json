@@ -1,7 +1,7 @@
 [
     {
         "type": "text",
-        "text": "## Verification of GovernorPreventLateQuorum\r\n\r\n`GovernorPreventLateQuorum` extends the Governor group of contracts to add the\r\nfeature of giving voters more time to vote in the case that a proposal reaches\r\nquorum with less than `voteExtension` amount of time left to vote.\r\n\r\n### Assumptions and Simplifications\r\n\r\nNone\r\n\r\n#### Harnessing\r\n- The contract that the specification was verified against is\r\n`GovernorPreventLateQuorumHarness`, which inherits from all of the Governor\r\ncontracts \u2014 excluding Compound variations \u2014 and implements a number of view\r\nfunctions to gain access to values that are impossible/difficult to access in\r\nCVL. It also implements all of the required functions not implemented in the\r\nabstract contracts it inherits from.\r\n\r\n- `_castVote` was overriden to add an additional flag before calling the parent\r\nversion. This flag stores the `block.number` in a variable\r\n`latestCastVoteCall` and is used as a way to check when any of variations of\r\n`castVote` are called.\r\n\r\n#### Munging\r\n\r\n- Various variables' visibility was changed from private to internal or from\r\ninternal to public throughout the Governor contracts in order to make them\r\naccessible in the spec.\r\n\r\n- Arbitrary low level calls are assumed to change nothing and thus the function\r\n`_execute` is changed to do nothing. The tool normally havocs in this\r\nsituation, assuming all storage can change due to possible reentrancy. We\r\nassume, however, there is no risk of reentrancy because `_execute` is a\r\nprotected call locked behind the timelocked governance vote. All other\r\ngovernance functions are verified separately."
+        "text": "## Verification of GovernorPreventLateQuorum\n\n`GovernorPreventLateQuorum` extends the Governor group of contracts to add the\nfeature of giving voters more time to vote in the case that a proposal reaches\nquorum with less than `voteExtension` amount of time left to vote.\n\n### Assumptions and Simplifications\n\nNone\n\n#### Harnessing\n- The contract that the specification was verified against is\n`GovernorPreventLateQuorumHarness`, which inherits from all of the Governor\ncontracts \u2014 excluding Compound variations \u2014 and implements a number of view\nfunctions to gain access to values that are impossible/difficult to access in\nCVL. It also implements all of the required functions not implemented in the\nabstract contracts it inherits from.\n\n- `_castVote` was overriden to add an additional flag before calling the parent\nversion. This flag stores the `block.number` in a variable\n`latestCastVoteCall` and is used as a way to check when any of variations of\n`castVote` are called.\n\n#### Munging\n\n- Various variables' visibility was changed from private to internal or from\ninternal to public throughout the Governor contracts in order to make them\naccessible in the spec.\n\n- Arbitrary low level calls are assumed to change nothing and thus the function\n`_execute` is changed to do nothing. The tool normally havocs in this\nsituation, assuming all storage can change due to possible reentrancy. We\nassume, however, there is no risk of reentrancy because `_execute` is a\nprotected call locked behind the timelocked governance vote. All other\ngovernance functions are verified separately."
     },
     {
         "type": "text",
@@ -28,7 +28,7 @@
         "text": "### Properties"
     },
     {
-        "content": "/**\r\n * If a proposal has reached quorum then the proposal snapshot (start `block.number`) must be non-zero\r\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\r\n * @dev ADVANCED SANITY NOT RAN\r\n */",
+        "content": "/**\n * If a proposal has reached quorum then the proposal snapshot (start `block.number`) must be non-zero\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN\n */",
         "id": "quorumReachedEffect",
         "title": "Quorum reached effect",
         "type": "invariant",
@@ -49,7 +49,7 @@
         "dev": "ADVANCED SANITY NOT RAN"
     },
     {
-        "content": "/**\r\n * A created propsal must be in state deadlineExtendable or deadlineExtended.\r\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\r\n * @dev ADVANCED SANITY NOT RAN \r\n */",
+        "content": "/**\n * A created propsal must be in state deadlineExtendable or deadlineExtended.\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN \n */",
         "id": "proposalInOneState",
         "title": "Proposal in one state",
         "type": "invariant",
@@ -75,10 +75,10 @@
     },
     {
         "type": "text",
-        "text": "The rules [R1](#deadlineChangeEffects) and [R2](#deadlineCantBeUnextended)\r\nare assumed in rule [R3](#canExtendDeadlineOnce), so we prove them first."
+        "text": "The rules [R1](#deadlineChangeEffects) and [R2](#deadlineCantBeUnextended)\nare assumed in rule [R3](#canExtendDeadlineOnce), so we prove them first."
     },
     {
-        "content": "/**\r\n * If deadline increases then we are in `deadlineExtended` state and `castVote`\r\n * was called.\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING \r\n */",
+        "content": "/**\n * If deadline increases then we are in `deadlineExtended` state and `castVote`\n * was called.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
         "id": "deadlineChangeEffects",
         "title": "Deadline change effects",
         "type": "rule",
@@ -91,11 +91,11 @@
         "return": {
             "type": "None"
         },
-        "notice": "If deadline increases then we are in `deadlineExtended` state and `castVote`\r\nwas called.",
+        "notice": "If deadline increases then we are in `deadlineExtended` state and `castVote`\nwas called.",
         "dev": "ADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\r\n * @title Deadline can't be unextended\r\n * @notice A proposal can't leave `deadlineExtended` state.\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING \r\n */",
+        "content": "/**\n * @title Deadline can't be unextended\n * @notice A proposal can't leave `deadlineExtended` state.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
         "id": "deadlineCantBeUnextended",
         "title": "Deadline can't be unextended",
         "type": "rule",
@@ -112,7 +112,7 @@
         "dev": "ADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\r\n * A proposal's deadline can't change in `deadlineExtended` state.\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING \r\n */",
+        "content": "/**\n * A proposal's deadline can't change in `deadlineExtended` state.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
         "id": "canExtendDeadlineOnce",
         "title": "Can extend deadline once",
         "type": "rule",
@@ -134,10 +134,10 @@
     },
     {
         "type": "text",
-        "text": "The main rule in this section is [the deadline can only extended if quorum reached w/ <= timeOfExtension left to vote](#deadlineExtenededIfQuorumReached)\r\nThe other rules of this section are assumed in the proof, so we prove them\r\nfirst."
+        "text": "The main rule in this section is [the deadline can only extended if quorum reached w/ <= timeOfExtension left to vote](#deadlineExtenededIfQuorumReached)\nThe other rules of this section are assumed in the proof, so we prove them\nfirst."
     },
     {
-        "content": "/**\r\n * A change in hasVoted must be correlated with an increasing of the vote\r\n * supports, i.e. casting a vote increases the total number of votes.\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING\r\n */",
+        "content": "/**\n * A change in hasVoted must be correlated with an increasing of the vote\n * supports, i.e. casting a vote increases the total number of votes.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING\n */",
         "id": "hasVotedCorrelationNonzero",
         "title": "Has voted correlation nonzero",
         "type": "rule",
@@ -158,11 +158,11 @@
         "return": {
             "type": "None"
         },
-        "notice": "A change in hasVoted must be correlated with an increasing of the vote\r\nsupports, i.e. casting a vote increases the total number of votes.",
+        "notice": "A change in hasVoted must be correlated with an increasing of the vote\nsupports, i.e. casting a vote increases the total number of votes.",
         "dev": "ADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\r\n * @title Against votes don't count\r\n * @notice An against vote does not make a proposal reach quorum.\r\n * @dev RULE PASSING\r\n * @dev --ADVANCED SANITY PASSING vacuous but keeping\r\n */",
+        "content": "/**\n * @title Against votes don't count\n * @notice An against vote does not make a proposal reach quorum.\n * @dev RULE PASSING\n * @dev --ADVANCED SANITY PASSING vacuous but keeping\n */",
         "id": "againstVotesDontCount",
         "title": "Against votes don't count",
         "type": "rule",
@@ -179,7 +179,7 @@
         "dev": "--ADVANCED SANITY PASSING vacuous but keeping"
     },
     {
-        "content": "/**\r\n * Deadline can only be extended from a `deadlineExtendible` state with quorum being reached with <= `lateQuorumVoteExtension` time left to vote\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING \r\n */",
+        "content": "/**\n * Deadline can only be extended from a `deadlineExtendible` state with quorum being reached with <= `lateQuorumVoteExtension` time left to vote\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
         "id": "deadlineExtenededIfQuorumReached",
         "title": "Deadline exteneded if quorum reached",
         "type": "rule",
@@ -196,7 +196,7 @@
         "dev": "ADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\r\n * `extendedDeadlineField` is set iff `_castVote` is called and quroum is reached.\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING \r\n */",
+        "content": "/**\n * `extendedDeadlineField` is set iff `_castVote` is called and quroum is reached.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
         "id": "extendedDeadlineValueSetIfQuorumReached",
         "title": "Extended deadline value set if quorum reached",
         "type": "rule",
@@ -213,7 +213,7 @@
         "dev": "ADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\r\n * Deadline can never be reduced.\r\n * @dev RULE PASSING\r\n * @dev ADVANCED SANITY PASSING\r\n */",
+        "content": "/**\n * Deadline can never be reduced.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING\n */",
         "id": "deadlineNeverReduced",
         "title": "Deadline never reduced",
         "type": "rule",
