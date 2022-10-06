@@ -104,6 +104,8 @@ def handle_documentation(documentation) -> Dict[str, any]:
                 doc_dict['type'] = 'rule'
             elif documentation.associated.kind == 'invariant':
                 doc_dict['type'] = 'invariant'
+            elif documentation.associated.kind == 'methods':
+                doc_dict['type'] = 'methods'
             elif documentation.associated.kind in other_names:
                 doc_dict['type'] = documentation.associated.kind
             else:

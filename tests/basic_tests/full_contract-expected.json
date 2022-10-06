@@ -1,10 +1,10 @@
 [
     {
         "type": "text",
-        "text": "# testing the NatSpec parser.\nThis is made by Gabriel  it contains all\nknown tags\n"
+        "text": "# testing the NatSpec parser.\r\nThis is made by Gabriel  it contains all\r\nknown tags"
     },
     {
-        "content": "require e1.msg.value == 0;\r\n    require e1.msg.sender == e2.msg.sender;",
+        "content": "/**\r\n * @title takeTwoEnvs function\r\n * @param e1 - first environment\r\n * @param e2 - second environment\r\n **/",
         "id": "takeTwoEnvs",
         "title": "takeTwoEnvs function",
         "type": "function",
@@ -25,7 +25,7 @@
         }
     },
     {
-        "content": "assert get5() == 5;",
+        "content": "/**\r\n * @title callGet5 function calling get5\r\n * @notice no parameters\r\n **/",
         "id": "callGet5",
         "title": "callGet5 function calling get5",
         "type": "function",
@@ -35,7 +35,7 @@
         "notice": "no parameters"
     },
     {
-        "content": "preserved init_state() {\r\n        require getX() == 20;\r\n    }",
+        "content": "/**\r\n * @title my_invariant invariant!\r\n * @notice ensuring get5 is always equal 5\r\n **/",
         "id": "my_invariant",
         "title": "my_invariant invariant!",
         "type": "invariant",
@@ -45,7 +45,7 @@
         "notice": "ensuring get5 is always equal 5"
     },
     {
-        "content": "callGet5();\r\n    assert true;",
+        "content": "/**\r\n * @title a wrapper of callGet5!\r\n * @notice ensuring get5 is always equal 5\r\n **/",
         "id": "wrapper",
         "title": "a wrapper of callGet5!",
         "type": "rule",
@@ -56,10 +56,10 @@
     },
     {
         "type": "text",
-        "text": "# this is a new part of the spec\n# it provides further coverage of the basic rules."
+        "text": "# this is a new part of the spec\r\n# it provides further coverage of the basic rules."
     },
     {
-        "content": "uint n;\r\n    // invoke as a command\r\n    setX(n);\r\n    // invoke as an expression\r\n    assert getX() == n;",
+        "content": "/**\r\n * @title inlineInvoke\r\n * @notice invoking in inline fashion the setX and getX functions\r\n **/",
         "id": "inlineInvoke",
         "title": "inlineInvoke",
         "type": "rule",
@@ -69,7 +69,7 @@
         "notice": "invoking in inline fashion the setX and getX functions"
     },
     {
-        "content": "uint n;\r\n    uint m;\r\n    // invoke as a command\r\n    setX(n);\r\n    // invoke as an expression\r\n    assert getXCanRevert@withrevert(m) == n;",
+        "content": "/**\r\n * @title a wrapper of callGet5!\r\n * @notice ensuring get5 is always equal 5\r\n **/",
         "id": "inlineInvokeCanRevert",
         "title": "a wrapper of callGet5!",
         "type": "rule",
@@ -79,7 +79,7 @@
         "notice": "ensuring get5 is always equal 5"
     },
     {
-        "content": "env e;\r\n    calldataarg args;\r\n    f(e, args);\r\n    assert true;",
+        "content": "/**\r\n * @title a parametric rule!\r\n * @notice asserting any method\r\n * @param f  the method being checked.\r\n **/",
         "id": "parametric",
         "title": "a parametric rule!",
         "type": "rule",
@@ -96,7 +96,7 @@
         "notice": "asserting any method"
     },
     {
-        "content": "env e;\r\n    uint256 nPlusX;\r\n    uint256 nPlusXPlusM;\r\n    uint256 x;\r\n    x, nPlusX, nPlusXPlusM = threeReturns(e, n, m);\r\n    require x < 10987098;\r\n    require n < 150293879209;\r\n    require m < 1203958240;\r\n    assert nPlusX == x + n;\r\n    assert nPlusXPlusM == nPlusX + m;",
+        "content": "/**\r\n * @title a 3 return rule!\r\n * @notice checking the summation\r\n * @param n is the first argument\r\n * @param m is the second argument\r\n **/",
         "id": "threeReturns",
         "title": "a 3 return rule!",
         "type": "rule",

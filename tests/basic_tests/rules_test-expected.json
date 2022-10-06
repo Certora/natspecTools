@@ -4,7 +4,7 @@
         "text": "# Natspec for rules.\r\n * ## A testing file for rules definitions comments.\r\n * ## it contains rules with and without parameters\r\n"
     },
     {
-        "content": "env eF;\r\n\tcalldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse {\r\n\t\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;",
+        "content": "/**\r\n  * @title Simple rule for checking authorizations\r\n  * @notice  getting two addresses and a method.\r\n  * checking if the sender is autorise to run the method.\r\n  * @dev Note: this is a parametric rule.\r\n  * @param d - the address of the sender\r\n  * @param x - the address of the function invoker\r\n  * @param f - the function to be invoked.\r\n  **/",
         "id": "simple",
         "title": "Simple rule for checking authorizations",
         "type": "rule",
@@ -28,11 +28,11 @@
         "return": {
             "type": "None"
         },
-        "notice": "getting two addresses and a method.\nchecking if the sender is autorise to run the method.",
+        "notice": "getting two addresses and a method.\r\nchecking if the sender is autorise to run the method.",
         "dev": "Note: this is a parametric rule."
     },
     {
-        "content": "calldataarg arg;\r\n\tif (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t       env eF;\r\n\t\t   require (eF.msg.sender == x);\r\n           sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}\r\n\tassert false;",
+        "content": "/** # simple2 - another simple rule.\r\n  * @title Selector rule.\r\n  * @dev this rule is testing the sinvoke function.\r\n  * @param d the address of the sender.\r\n  * @param x the address of the receiver\r\n  * @param ff - this doesn't exist.\r\n  **/",
         "id": "simple2",
         "title": "Selector rule.",
         "type": "rule",
@@ -59,7 +59,7 @@
         "dev": "this rule is testing the sinvoke function."
     },
     {
-        "content": "callF(d,x,f);\r\n\tassert false;",
+        "content": "/**\r\n  * @title simple3 - another simple rule.\r\n  * @notice this is a very short and simple rule\r\n  * @dev this rule is testing the sinvoke function.\r\n  * @param d the first address.\r\n  * @param x the second address.\r\n  * @param f - the method that is being tested.\r\n  **/",
         "id": "simple3",
         "title": "simple3 - another simple rule.",
         "type": "rule",

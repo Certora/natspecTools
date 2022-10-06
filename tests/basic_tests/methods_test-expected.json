@@ -1,10 +1,11 @@
 [
     {
         "type": "text",
-        "text": "# methods_test.spec - Natspec testing file for the methods statement.\n# contains a few declarations of statements."
+        "text": "# methods_test.spec - Natspec testing file for the methods statement.\r\n# contains a few declarations of statements."
     },
     {
-        "content": "get10PowerDecimals(uint8) returns(uint256) envfree",
+        "content": "/**\r\n * @title mathematical helpe functions.\r\n * @notice get the  power of 10 n decimal format\r\n * @dev do not use this function on floating points.\r\n */",
+        "type": "methods",
         "return": {
             "type": "None"
         },
@@ -13,7 +14,8 @@
         "dev": "do not use this function on floating points."
     },
     {
-        "content": "balanceOf(address) returns uint256\r\n\ttransfer(address,uint256) returns bool\r\n\ttransferFrom(address, address, uint256) returns bool\r\n\tapprove(address, uint256) returns bool\r\n\tallowance(address, address) returns uint256\r\n\ttotalSupply() returns uint256\r\n\t// Extended API - not implemented\r\n\tmint(address,uint256) returns bool\r\n\tburn(address,uint256)\r\n\towner() returns address\r\n\tpaused() returns bool",
+        "content": "/**\r\n * @title Specification for core ERC20 tokens.\r\n * @notice contains all ER20 Interface definitions.\r\n * @dev includes some extended  interfaces that is not implemented yet.\r\n */",
+        "type": "methods",
         "return": {
             "type": "None"
         },

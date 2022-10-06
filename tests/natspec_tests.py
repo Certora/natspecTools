@@ -72,12 +72,12 @@ def test_methods():
         pprint(diff, indent=4)
         assert 0
 
-def test_using():
-    diff = run_test_file(str(Path('basic_tests/using_test.spec')))
-    if diff:
-        pprint(diff, indent=4)
-        assert 0
 # not supported yet.
+# def test_using():
+#    diff = run_test_file(str(Path('basic_tests/using_test.spec')))
+#    if diff:
+#        pprint(diff, indent=4)
+#        assert 0
 # def test_import():
 #     diff = run_test_file(str(Path('basic_tests/import_test.spec')))
 #     if diff:

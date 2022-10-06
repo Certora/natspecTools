@@ -1,31 +1,31 @@
 [
     {
         "type": "text",
-        "text": "# testing  NatSpec file for invariants contains all sort of invariants.\n# each invariant has a somewhat different tags associated with it."
+        "text": "# testing  NatSpec file for invariants contains all sort of invariants.\r\n# each invariant has a somewhat different tags associated with it."
     },
     {
-        "content": "preserved with(env e) {\r\n            require e.msg.sender != currentContract;\r\n        }",
+        "content": "/**\r\n * @title totalSupply_LE_balance\r\n * @notice invariant to assure that the total supply is always under the balance amount.\r\n *  the variant has no parameters.\r\n * @dev assume currentContract is initiated.\r\n */",
         "id": "totalSupply_LE_balance",
         "title": "totalSupply_LE_balance",
         "type": "invariant",
         "return": {
             "type": "None"
         },
-        "notice": "invariant to assure that the total supply is always under the balance amount.\nthe variant has no parameters.",
+        "notice": "invariant to assure that the total supply is always under the balance amount.\r\nthe variant has no parameters.",
         "dev": "assume currentContract is initiated."
     },
     {
-        "content": "preserved with(env e) {\r\n            require e.msg.sender != currentContract;\r\n        }",
+        "content": "/**\r\n * @title totalSupply_vs_balance\r\n * @notice The total supply of the system si zero if and only if the balanceof the system is zero\r\n * the variant has no parameters\r\n*/",
         "id": "totalSupply_vs_balance",
         "title": "totalSupply_vs_balance",
         "type": "invariant",
         "return": {
             "type": "None"
         },
-        "notice": "The total supply of the system si zero if and only if the balanceof the system is zero\nthe variant has no parameters"
+        "notice": "The total supply of the system si zero if and only if the balanceof the system is zero\r\nthe variant has no parameters"
     },
     {
-        "content": null,
+        "content": "/**\r\n * @title proxyNotZero\r\n * @notice make sure that the proxy is not zero.\r\n * @dev make use of 'getOrCreateProxy'\r\n * @param a = proxy address\r\n*/",
         "id": "proxyNotZero",
         "title": "proxyNotZero",
         "type": "invariant",
@@ -43,7 +43,7 @@
         "dev": "make use of 'getOrCreateProxy'"
     },
     {
-        "content": null,
+        "content": "/**\r\n * @title check - check all addresses.\r\n * @dev make use of 'getVoteSigner' and 'isAccount'\r\n * @param x = source address\r\n * @param d = destination address\r\n*/",
         "id": "check",
         "title": "check - check all addresses.",
         "type": "invariant",

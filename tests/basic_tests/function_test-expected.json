@@ -1,10 +1,10 @@
 [
     {
         "type": "text",
-        "text": "#  Function testing.\n# This function is testing the invoking process\n# part of the Fahrenheit project"
+        "text": "#  Function testing.\r\n# This function is testing the invoking process\r\n# part of the Fahrenheit project"
     },
     {
-        "content": "if (!f.isFallback && f.selector ==  authorizeVoteSigner(address).selector) {\r\n\t    env eF;\r\n\t\trequire (eF.msg.sender == x);\r\n        sinvoke authorizeVoteSigner(eF,d);\r\n\t}\r\n\telse if(!f.isFallback && f.selector == createAccount().selector) {\r\n\t\tenv eF;\r\n\t\tsinvoke createAccount(eF);\r\n\t}\r\n\telse {\r\n\t\t\tcalldataarg arg;\r\n\t\t\tenv eF;\r\n\t\t\tsinvoke f(eF,arg);\r\n\t}",
+        "content": "/**\r\n * @title Callf authorization function.\r\n * @notice this function is part of the project and\r\n * performing authorization checks on some addresses.\r\n * @dev  the function is assuming the declaration  of 'autorizeVoteSigner\r\n * function.\r\n * @param d the first address\r\n * @param x the unkown signer address\r\n * @param f the signing function.\r\n */",
         "id": "callF",
         "title": "Callf authorization function.",
         "type": "function",
@@ -28,11 +28,11 @@
         "return": {
             "type": "None"
         },
-        "notice": "this function is part of the project and\nperforming authorization checks on some addresses.",
-        "dev": " the function is assuming the declaration  of 'autorizeVoteSigner\nfunction."
+        "notice": "this function is part of the project and\r\nperforming authorization checks on some addresses.",
+        "dev": "the function is assuming the declaration  of 'autorizeVoteSigner\r\nfunction."
     },
     {
-        "content": "uint8 age;\r\n    age, _, _ = getFullVoterDetails(e, voter);\r\n    return age;",
+        "content": "/**\r\n * @title getVoterAge - get voter age.\r\n * @notice this function decides if the sender is old enough to vote\r\n * it uses the getFullVoterDetails function.\r\n * @dev  the function is assuming the declaration  of 'getFullVoterDetails'\r\n * function.\r\n * @param e the used environment\r\n * @param voter - the prospect voter address\r\n * @return the voter age.\r\n */",
         "id": "getVoterAge",
         "title": "getVoterAge - get voter age.",
         "type": "function",
@@ -52,11 +52,11 @@
             "type": "uint8",
             "comment": "the voter age."
         },
-        "notice": "this function decides if the sender is old enough to vote\nit uses the getFullVoterDetails function.",
-        "dev": " the function is assuming the declaration  of 'getFullVoterDetails'\nfunction."
+        "notice": "this function decides if the sender is old enough to vote\r\nit uses the getFullVoterDetails function.",
+        "dev": "the function is assuming the declaration  of 'getFullVoterDetails'\r\nfunction."
     },
     {
-        "content": "bool isReg;\r\n    _, isReg, _ = getFullVoterDetails(e, voter);\r\n    return isReg;",
+        "content": "/**\r\n * @title getRegistered - get registered.\r\n * @dev  the function is assuming the declaration  of 'getFullVoterDetails'\r\n * function.\r\n * @param e the used environment\r\n * @param voter - the prospect voter address\r\n * @return indication if the voter is registered.\r\n */",
         "id": "getRegistered",
         "title": "getRegistered - get registered.",
         "type": "function",
@@ -76,6 +76,6 @@
             "type": "bool",
             "comment": "indication if the voter is registered."
         },
-        "dev": " the function is assuming the declaration  of 'getFullVoterDetails'\nfunction."
+        "dev": "the function is assuming the declaration  of 'getFullVoterDetails'\r\nfunction."
     }
 ]
