@@ -28,7 +28,7 @@
         "return": {
             "type": "None"
         },
-        "notice": " getting two addresses and a method.\nchecking if the sender is autorise to run the method.",
+        "notice": "getting two addresses and a method.\nchecking if the sender is autorise to run the method.",
         "dev": "Note: this is a parametric rule."
     },
     {
