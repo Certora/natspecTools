@@ -37,7 +37,7 @@ def run_test_file(filename):
     file_expected = open(expected_filename)
     output_data = json.load(file_output)
     expected_data = json.load(file_expected)
-    diff = DeepDiff(output_data, expected_data, )
+    diff = DeepDiff(expected_data, output_data)
     return diff
 
 
