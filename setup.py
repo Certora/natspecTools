@@ -30,7 +30,8 @@ if __name__ == "__main__":
                                              'tests/basic_tests/methods_test.spec',
                                              'tests/basic_tests/using_test.spec'])],
         install_requires=[
-            'cvldoc_parser==0.4.2'
+            'cvldoc_parser==0.4.2',
+            'inflection'
         ],
         classifiers=[
             "Programming Language :: Python :: 3",
