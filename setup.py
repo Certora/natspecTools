@@ -42,7 +42,7 @@ if __name__ == "__main__":
         python_requires='>=3.7',
         entry_points={
             "console_scripts": [
-                "cvlDoc=CVLDoc.natspec_to_json:entry_point",
+                "cvldoc=CVLDoc.natspec_to_json:entry_point",
             ],
         },
     )

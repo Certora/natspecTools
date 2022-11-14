@@ -121,10 +121,7 @@ def handle_documentation(documentation) -> Dict[str, any]:
             # get the return data type
             ret_data = {}
             if documentation.associated.returns is not None:
-                ret_data = {'type': documentation.associated.returns}
-            else:
-                ret_data = {'type': 'None'}
-            doc_dict['return'] = ret_data
+                doc_dict['return'] = {'type': documentation.associated.returns}
 
         else:  # associated element is unrecognized.
             doc_dict['type'] = 'unknown'
@@ -133,8 +130,16 @@ def handle_documentation(documentation) -> Dict[str, any]:
         print('NatSpec parser library type is not supported!')
         return None
 
+    dev_contents = []
     for doc_tag in documentation.tags:
-        handle_tag(doc_dict, doc_tag)
+        if doc_tag.kind == 'dev':
+            dev_contents.append(doc_tag.description)
+        else:
+            handle_tag(doc_dict, doc_tag)
+
+    #  join all @dev tags to one tag.
+    if dev_contents:
+        doc_dict['dev'] = '\n'.join(dev_contents)
 
     return doc_dict
 
@@ -174,8 +179,6 @@ def handle_tag(doc_dict, tag):
         doc_dict['notice'] = tag.description
     elif tag.kind == 'formula':
         doc_dict['formula'] = tag.description
-    elif tag.kind == 'dev':
-        doc_dict['dev'] = tag.description
     elif tag.kind == 'return':
         ret_data = doc_dict['return']
         ret_data['comment'] = tag.description
