@@ -28,7 +28,7 @@
         "text": "### Properties"
     },
     {
-        "content": "/**\n * If a proposal has reached quorum then the proposal snapshot (start `block.number`) must be non-zero\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN\n */",
+        "content": "/**\n * If a proposal has reached quorum then the proposal snapshot (start `block.number`) must be non-zero\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN\n */ \ninvariant quorumReachedEffect(env e, uint256 pId)\n    quorumReached(e, pId) => proposalCreated(pId) // bug: 0 supply 0 votes => quorumReached\n    // filtered { f -> f.selector != updateQuorumNumerator(uint256).selector } // * fails for this function\n\n/**\n * A non-existant proposal must meet the definition of one.\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN\n */\n",
         "id": "quorumReachedEffect",
         "title": "Quorum reached effect",
         "type": "invariant",
@@ -42,14 +42,11 @@
                 "name": "pId"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "If a proposal has reached quorum then the proposal snapshot (start `block.number`) must be non-zero",
-        "dev": "ADVANCED SANITY NOT RAN"
+        "dev": "INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\nADVANCED SANITY NOT RAN"
     },
     {
-        "content": "/**\n * A created propsal must be in state deadlineExtendable or deadlineExtended.\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN \n */",
+        "content": "/**\n * A created propsal must be in state deadlineExtendable or deadlineExtended.\n * @dev INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\n * @dev ADVANCED SANITY NOT RAN \n */\ninvariant proposalInOneState(env e, uint256 pId) \n    proposalNotCreated(e, pId) || deadlineExtendable(e, pId) || deadlineExtended(e, pId)\n    // filtered { f -> f.selector != updateQuorumNumerator(uint256).selector } // * fails for this function\n    { preserved { requireInvariant proposalNotCreatedEffects(e, pId); }}",
         "id": "proposalInOneState",
         "title": "Proposal in one state",
         "type": "invariant",
@@ -63,11 +60,8 @@
                 "name": "pId"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "A created propsal must be in state deadlineExtendable or deadlineExtended.",
-        "dev": "ADVANCED SANITY NOT RAN"
+        "dev": "INVARIANT NOT PASSING // fails for updateQuorumNumerator and in the initial state when voting token total supply is 0 (causes quoromReached to return true)\nADVANCED SANITY NOT RAN"
     },
     {
         "type": "text",
@@ -78,7 +72,7 @@
         "text": "The rules [R1](#deadlineChangeEffects) and [R2](#deadlineCantBeUnextended)\nare assumed in rule [R3](#canExtendDeadlineOnce), so we prove them first."
     },
     {
-        "content": "/**\n * If deadline increases then we are in `deadlineExtended` state and `castVote`\n * was called.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
+        "content": "/**\n * If deadline increases then we are in `deadlineExtended` state and `castVote`\n * was called.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */ \nrule deadlineChangeEffects(method f) filtered {f -> !f.isView} {\n    env e; calldataarg args; uint256 pId;\n\n    requireInvariant quorumReachedEffect(e, pId);\n    \n    uint256 deadlineBefore = proposalDeadline(pId);\n    f(e, args);\n    uint256 deadlineAfter = proposalDeadline(pId);\n    \n    assert(deadlineAfter > deadlineBefore => latestCastVoteCall() == e.block.number && deadlineExtended(e, pId));\n}",
         "id": "deadlineChangeEffects",
         "title": "Deadline change effects",
         "type": "rule",
@@ -88,14 +82,11 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "If deadline increases then we are in `deadlineExtended` state and `castVote`\nwas called.",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\n * @title Deadline can't be unextended\n * @notice A proposal can't leave `deadlineExtended` state.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
+        "content": "/**\n * @title Deadline can't be unextended\n * @notice A proposal can't leave `deadlineExtended` state.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */ \nrule deadlineCantBeUnextended(method f) \n    filtered {\n        f -> !f.isView\n        // && f.selector != updateQuorumNumerator(uint256).selector // * fails for this function\n    } {\n    env e; calldataarg args; uint256 pId;\n\n    require(deadlineExtended(e, pId));\n    requireInvariant quorumReachedEffect(e, pId);\n    \n    f(e, args);\n    \n    assert(deadlineExtended(e, pId));\n}",
         "id": "deadlineCantBeUnextended",
         "title": "Deadline can't be unextended",
         "type": "rule",
@@ -105,14 +96,11 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "A proposal can't leave `deadlineExtended` state.",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\n * A proposal's deadline can't change in `deadlineExtended` state.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
+        "content": "/**\n * A proposal's deadline can't change in `deadlineExtended` state.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */ \nrule canExtendDeadlineOnce(method f) filtered {f -> !f.isView} {\n    env e; calldataarg args; uint256 pId;\n\n    require(deadlineExtended(e, pId));\n    requireInvariant quorumReachedEffect(e, pId); \n    \n    uint256 deadlineBefore = proposalDeadline(pId);\n    f(e, args);\n    uint256 deadlineAfter = proposalDeadline(pId);\n    \n    assert(deadlineBefore == deadlineAfter, \"deadline can not be extended twice\");\n}",
         "id": "canExtendDeadlineOnce",
         "title": "Can extend deadline once",
         "type": "rule",
@@ -122,11 +110,8 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "A proposal's deadline can't change in `deadlineExtended` state.",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     },
     {
         "type": "text",
@@ -137,7 +122,7 @@
         "text": "The main rule in this section is [the deadline can only extended if quorum reached w/ <= timeOfExtension left to vote](#deadlineExtenededIfQuorumReached)\nThe other rules of this section are assumed in the proof, so we prove them\nfirst."
     },
     {
-        "content": "/**\n * A change in hasVoted must be correlated with an increasing of the vote\n * supports, i.e. casting a vote increases the total number of votes.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING\n */",
+        "content": "/**\n * A change in hasVoted must be correlated with an increasing of the vote\n * supports, i.e. casting a vote increases the total number of votes.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING\n */\nrule hasVotedCorrelationNonzero(uint256 pId, method f, env e) filtered {f -> !f.isView} {\n    address acc = e.msg.sender;\n\n    require(getVotes(e, acc, proposalSnapshot(pId)) > 0); // assuming voter has non-zero voting power\n    \n    uint256 againstBefore = votesAgainst();\n    uint256 forBefore = votesFor();\n    uint256 abstainBefore = votesAbstain();\n\n    bool hasVotedBefore = hasVoted(e, pId, acc);\n\n    helperFunctionsWithRevertOnlyCastVote(pId, f, e); // should be f(e, args)\n\n    uint256 againstAfter = votesAgainst();\n    uint256 forAfter = votesFor();\n    uint256 abstainAfter = votesAbstain();\n    \n    bool hasVotedAfter = hasVoted(e, pId, acc);\n\n    // want all vote categories to not decrease and at least one category to increase\n    assert \n        (!hasVotedBefore && hasVotedAfter) => \n        (againstBefore <= againstAfter && forBefore <= forAfter && abstainBefore <= abstainAfter), \n        \"after a vote is cast, the number of votes for each category must not decrease\"; // currently vacous but keeping for CI tests\n    assert \n        (!hasVotedBefore && hasVotedAfter) => \n        (againstBefore < againstAfter || forBefore < forAfter || abstainBefore < abstainAfter),\n        \"after a vote is cast, the number of votes of at least one category must increase\";\n}",
         "id": "hasVotedCorrelationNonzero",
         "title": "Has voted correlation nonzero",
         "type": "rule",
@@ -155,14 +140,11 @@
                 "name": "e"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "A change in hasVoted must be correlated with an increasing of the vote\nsupports, i.e. casting a vote increases the total number of votes.",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\n * @title Against votes don't count\n * @notice An against vote does not make a proposal reach quorum.\n * @dev RULE PASSING\n * @dev --ADVANCED SANITY PASSING vacuous but keeping\n */",
+        "content": "/**\n * @title Against votes don't count\n * @notice An against vote does not make a proposal reach quorum.\n * @dev RULE PASSING\n * @dev --ADVANCED SANITY PASSING vacuous but keeping\n */\nrule againstVotesDontCount(method f) filtered {f -> !f.isView} {\n    env e; calldataarg args; uint256 pId; \n    address acc = e.msg.sender;\n    \n    bool quorumBefore = quorumReached(e, pId);\n    uint256 againstBefore = votesAgainst();\n\n    f(e, args);\n\n    bool quorumAfter = quorumReached(e, pId);\n    uint256 againstAfter = votesAgainst();\n\n    assert (againstBefore < againstAfter) => quorumBefore == quorumAfter, \"quorum must not be reached with an against vote\"; \n}",
         "id": "againstVotesDontCount",
         "title": "Against votes don't count",
         "type": "rule",
@@ -172,14 +154,11 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "An against vote does not make a proposal reach quorum.",
-        "dev": "--ADVANCED SANITY PASSING vacuous but keeping"
+        "dev": "RULE PASSING\n--ADVANCED SANITY PASSING vacuous but keeping"
     },
     {
-        "content": "/**\n * Deadline can only be extended from a `deadlineExtendible` state with quorum being reached with <= `lateQuorumVoteExtension` time left to vote\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
+        "content": "/**\n * Deadline can only be extended from a `deadlineExtendible` state with quorum being reached with <= `lateQuorumVoteExtension` time left to vote\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */\nrule deadlineExtenededIfQuorumReached(method f) filtered {f -> !f.isView} {\n    env e; calldataarg args; uint256 pId;\n\n    requireInvariant proposalInOneState(e, pId);\n    requireInvariant quorumReachedEffect(e, pId); \n    requireInvariant proposalNotCreatedEffects(e, pId);\n\n    bool wasDeadlineExtendable = deadlineExtendable(e, pId);\n    uint64 extension = lateQuorumVoteExtension();\n    uint256 deadlineBefore = proposalDeadline(pId);\n    f(e, args);\n    uint256 deadlineAfter = proposalDeadline(pId);\n    \n    assert deadlineAfter > deadlineBefore => wasDeadlineExtendable, \"deadline must have been extendable for the deadline to be extended\";\n    assert deadlineAfter > deadlineBefore => deadlineBefore - e.block.number <= extension, \"deadline extension should not be used\";\n}",
         "id": "deadlineExtenededIfQuorumReached",
         "title": "Deadline exteneded if quorum reached",
         "type": "rule",
@@ -189,14 +168,11 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "Deadline can only be extended from a `deadlineExtendible` state with quorum being reached with <= `lateQuorumVoteExtension` time left to vote",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\n * `extendedDeadlineField` is set iff `_castVote` is called and quroum is reached.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */",
+        "content": "/**\n * `extendedDeadlineField` is set iff `_castVote` is called and quroum is reached.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING \n */\nrule extendedDeadlineValueSetIfQuorumReached(method f) filtered {f -> !f.isView} {\n    env e; calldataarg args; uint256 pId;\n\n    requireInvariant proposalInOneState(e, pId);\n    \n    bool extendedBefore = deadlineExtended(e, pId);\n    f(e, args);\n    bool extendedAfter = deadlineExtended(e, pId);\n    uint256 extDeadline = getExtendedDeadline(pId);\n    \n    assert(\n        !extendedBefore && extendedAfter\n        => extDeadline == e.block.number + lateQuorumVoteExtension(),\n        \"extended deadline was not set\"\n    );\n}",
         "id": "extendedDeadlineValueSetIfQuorumReached",
         "title": "Extended deadline value set if quorum reached",
         "type": "rule",
@@ -206,14 +182,11 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "`extendedDeadlineField` is set iff `_castVote` is called and quroum is reached.",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     },
     {
-        "content": "/**\n * Deadline can never be reduced.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING\n */",
+        "content": "/**\n * Deadline can never be reduced.\n * @dev RULE PASSING\n * @dev ADVANCED SANITY PASSING\n */\nrule deadlineNeverReduced(method f) filtered {f -> !f.isView} {\n    env e; calldataarg args; uint256 pId;\n\n    requireInvariant quorumReachedEffect(e, pId);\n    requireInvariant proposalNotCreatedEffects(e, pId);\n\n    uint256 deadlineBefore = proposalDeadline(pId);\n    f(e, args);\n    uint256 deadlineAfter = proposalDeadline(pId);\n\n    assert(deadlineAfter >= deadlineBefore);\n}",
         "id": "deadlineNeverReduced",
         "title": "Deadline never reduced",
         "type": "rule",
@@ -223,10 +196,7 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "Deadline can never be reduced.",
-        "dev": "ADVANCED SANITY PASSING"
+        "dev": "RULE PASSING\nADVANCED SANITY PASSING"
     }
 ]

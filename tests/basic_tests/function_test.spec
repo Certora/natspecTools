@@ -6,7 +6,7 @@
  * @title Callf authorization function.
  * @notice this function is part of the project and
  * performing authorization checks on some addresses.
- * @dev  the function is assuming the declaration  of 'autorizeVoteSigner
+ * @dev  the function is assuming the declaration  of 'autorizeVoteSigner'
  * function.
  * @param d the first address
  * @param x the unkown signer address
