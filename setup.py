@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 NAME = "CVLDoc"
-VERSION = "0.1.5"
+VERSION = "0.2.0"
 
 if __name__ == "__main__":
     setup(
@@ -30,7 +30,8 @@ if __name__ == "__main__":
                                              'tests/basic_tests/methods_test.spec',
                                              'tests/basic_tests/using_test.spec'])],
         install_requires=[
-            'cvldoc_parser==0.4.2'
+            'cvldoc_parser==0.5.0',
+            'inflection'
         ],
         classifiers=[
             "Programming Language :: Python :: 3",
@@ -41,7 +42,7 @@ if __name__ == "__main__":
         python_requires='>=3.7',
         entry_points={
             "console_scripts": [
-                "cvlDoc=CVLDoc.natspec_to_json:entry_point",
+                "cvldoc=CVLDoc.natspec_to_json:entry_point",
             ],
         },
     )

@@ -3,11 +3,10 @@ import json
 import logging
 import os
 import re
-import sys
-from collections import OrderedDict
 from typing import Any, Dict, List, Tuple, Optional, Set, BinaryIO
 from pathlib import Path
 import cvldoc_parser
+import inflection
 
 
 def natspec_to_json(args) -> None:
@@ -55,12 +54,6 @@ def natspec_to_json(args) -> None:
         print('processing finished!')
 
 
-def sentence_case(string):
-    if string != '':
-        result = re.sub('([A-Z])', r' \1', string)
-        return result[:1].upper() + result[1:].lower()
-    return
-
 def handle_documentation_list(documentation_list) -> List[Dict]:
     document_dicts = []
     for documentation in documentation_list:
@@ -82,6 +75,7 @@ def handle_documentation(documentation) -> Dict[str, any]:
         print_diag(message)
 
     # check if this item is a FreeForm text
+    # copy the relevant entries ('type' and 'text').
     if documentation.__class__.__name__ == 'FreeForm':
         if documentation.text:
             doc_dict['type'] = 'text'
@@ -89,12 +83,15 @@ def handle_documentation(documentation) -> Dict[str, any]:
             return doc_dict
         else:
             return None
+
+    # item not a free form, must have an associated
+    # syntactic element
     elif documentation.__class__.__name__ == 'Documentation':  # Documentation object
         if documentation.associated is not None:
             doc_dict['content'] = documentation.raw
             if documentation.associated.name is not None:
                 doc_dict['id'] = documentation.associated.name
-                doc_dict['title'] = sentence_case(documentation.associated.name)
+                doc_dict['title'] = inflection.humanize(inflection.titleize(documentation.associated.name))
             function_names = ['function', 'definition', 'ghost variable', 'ghost function']
             other_names = ['summerization', 'import', 'use', 'using', 'hook']
 
@@ -124,10 +121,7 @@ def handle_documentation(documentation) -> Dict[str, any]:
             # get the return data type
             ret_data = {}
             if documentation.associated.returns is not None:
-                ret_data = {'type': documentation.associated.returns}
-            else:
-                ret_data = {'type': 'None'}
-            doc_dict['return'] = ret_data
+                doc_dict['return'] = {'type': documentation.associated.returns}
 
         else:  # associated element is unrecognized.
             doc_dict['type'] = 'unknown'
@@ -136,8 +130,16 @@ def handle_documentation(documentation) -> Dict[str, any]:
         print('NatSpec parser library type is not supported!')
         return None
 
+    dev_contents = []
     for doc_tag in documentation.tags:
-        handle_tag(doc_dict, doc_tag)
+        if doc_tag.kind == 'dev':
+            dev_contents.append(doc_tag.description)
+        else:
+            handle_tag(doc_dict, doc_tag)
+
+    #  join all @dev tags to one tag.
+    if dev_contents:
+        doc_dict['dev'] = '\n'.join(dev_contents)
 
     return doc_dict
 
@@ -177,8 +179,6 @@ def handle_tag(doc_dict, tag):
         doc_dict['notice'] = tag.description
     elif tag.kind == 'formula':
         doc_dict['formula'] = tag.description
-    elif tag.kind == 'dev':
-        doc_dict['dev'] = tag.description
     elif tag.kind == 'return':
         ret_data = doc_dict['return']
         ret_data['comment'] = tag.description

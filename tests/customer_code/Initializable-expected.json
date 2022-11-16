@@ -32,48 +32,36 @@
         "text": "### Properties"
     },
     {
-        "content": "/// A contract must only ever be in an initializing state while in the middle\n/// of a transaction execution.\n",
+        "content": "/// A contract must only ever be in an initializing state while in the middle\n/// of a transaction execution.\ninvariant notInitializing()\n    !initializing()\n\n\n",
         "id": "notInitializing",
         "title": "Not initializing",
         "type": "invariant",
-        "return": {
-            "type": "None"
-        },
         "notice": "A contract must only ever be in an initializing state while in the middle\nof a transaction execution."
     },
     {
-        "content": "/// @title Only initialized once\n/// @notice An initializable contract with a function that inherits the\n///         initializer modifier must be initializable only once\n",
+        "content": "/// @title Only initialized once\n/// @notice An initializable contract with a function that inherits the\n///         initializer modifier must be initializable only once\nrule initOnce() {\n    uint256 val; uint256 a; uint256 b;\n\n    require isInitialized();\n    initialize@withrevert(val, a, b);\n    assert lastReverted, \"contract must only be initialized once\";\n}",
         "id": "initOnce",
         "title": "Only initialized once",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "An initializable contract with a function that inherits the\ninitializer modifier must be initializable only once"
     },
     {
-        "content": "/// Successfully calling reinitialize() with a version value of 1 must result\n/// in `_initialized` being set to 1.\n",
+        "content": "/// Successfully calling reinitialize() with a version value of 1 must result\n/// in `_initialized` being set to 1.\nrule reinitializeEffects {\n    uint256 val; uint256 a; uint256 b;\n\n    reinitialize(val, a, b, 1);\n\n    assert isInitializedOnce(), \"reinitialize(1) must set _initialized to 1\";\n}",
         "id": "reinitializeEffects",
         "title": "Reinitialize effects",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "Successfully calling reinitialize() with a version value of 1 must result\nin `_initialized` being set to 1."
     },
     {
-        "content": "/// Successfully calling `initalize()` must result in `_initialized` being set to 1.\n/// @dev We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\n///      and the [above rule][#reinitalizeEffects] both pass.\n",
+        "content": "/// Successfully calling `initalize()` must result in `_initialized` being set to 1.\n/// @dev We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\n///      and the [above rule][#reinitalizeEffects] both pass.\nrule initalizeEffects {\n    uint256 val; uint256 a; uint256 b;\n\n    initialize(val, a, b);\n\n    assert isInitializedOnce(), \"initialize() must set _initialized to 1\";\n}",
         "id": "initalizeEffects",
         "title": "Initalize effects",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "Successfully calling `initalize()` must result in `_initialized` being set to 1.",
         "dev": "We assume `initialize()` and `reinitialize(1)` are equivalent if this rule\nand the [above rule][#reinitalizeEffects] both pass."
     },
     {
-        "content": "/// A disabled initializable contract must always stay disabled.\n",
+        "content": "/// A disabled initializable contract must always stay disabled.\nrule disabledStaysDisabled(method f) {\n    env e; calldataarg args; \n\n    bool disabledBefore = isDisabled();\n    f(e, args);\n    bool disabledAfter = isDisabled();\n\n    assert disabledBefore => disabledAfter, \"a disabled initializer must stay disabled\";\n}",
         "id": "disabledStaysDisabled",
         "title": "Disabled stays disabled",
         "type": "rule",
@@ -83,13 +71,10 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "A disabled initializable contract must always stay disabled."
     },
     {
-        "content": "/// The variable `_initialized` must not decrease.\n",
+        "content": "/// The variable `_initialized` must not decrease.\nrule increasingInitialized(method f) {\n    env e; calldataarg args;\n\n    uint8 initBefore = initialized();\n    f(e, args);\n    uint8 initAfter = initialized();\n    assert initBefore <= initAfter, \"_initialized must only increase\";\n}",
         "id": "increasingInitialized",
         "title": "Increasing initialized",
         "type": "rule",
@@ -99,79 +84,55 @@
                 "name": "f"
             }
         ],
-        "return": {
-            "type": "None"
-        },
         "notice": "The variable `_initialized` must not decrease."
     },
     {
-        "content": "/// If `reinitialize(...)` was called successfuly, then the variable\n/// `_initialized` must increase.\n",
+        "content": "/// If `reinitialize(...)` was called successfuly, then the variable\n/// `_initialized` must increase.\nrule reinitializeIncreasesInit {\n    uint256 val; uint8 n; uint256 a; uint256 b;\n\n    uint8 initBefore = initialized();\n    reinitialize(val, a, b, n);\n    uint8 initAfter = initialized();\n\n    assert initAfter > initBefore, \"calling reinitialize must increase _initialized\";\n}",
         "id": "reinitializeIncreasesInit",
         "title": "Reinitialize increases init",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "If `reinitialize(...)` was called successfuly, then the variable\n`_initialized` must increase."
     },
     {
-        "content": "/// `reinitialize(n)` must be callable if the contract is not in an\n/// `_initializing` state and `n` is greater than `_initialized` and less than\n/// 255\n",
+        "content": "/// `reinitialize(n)` must be callable if the contract is not in an\n/// `_initializing` state and `n` is greater than `_initialized` and less than\n/// 255\nrule reinitializeLiveness {\n    uint256 val; uint8 n; uint256 a; uint256 b;\n\n    requireInvariant notInitializing();\n    uint8 initVal = initialized();\n    reinitialize@withrevert(val, a, b, n);\n\n    assert n > initVal => !lastReverted, \"reinitialize(n) call must succeed if n was greater than _initialized\";\n}",
         "id": "reinitializeLiveness",
         "title": "Reinitialize liveness",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "`reinitialize(n)` must be callable if the contract is not in an\n`_initializing` state and `n` is greater than `_initialized` and less than\n255"
     },
     {
-        "content": "/// If `reinitialize(n)` was called successfully then `n` was greater than\n/// `_initialized`.\n",
+        "content": "/// If `reinitialize(n)` was called successfully then `n` was greater than\n/// `_initialized`.\nrule reinitializeRule {\n    uint256 val; uint8 n; uint256 a; uint256 b;\n\n    uint8 initBefore = initialized();\n    reinitialize(val, a, b, n);\n\n    assert n > initBefore;\n}",
         "id": "reinitializeRule",
         "title": "Reinitialize rule",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "If `reinitialize(n)` was called successfully then `n` was greater than\n`_initialized`."
     },
     {
-        "content": "/// Functions implemented in the parent contract that require `_initialized` to\n/// be a certain value are only callable when it is that value. \n",
+        "content": "/// Functions implemented in the parent contract that require `_initialized` to\n/// be a certain value are only callable when it is that value. \nrule reinitVersionCheckParent {\n    uint8 n;\n\n    returnsVN(n);\n    assert initialized() == n, \"parent contract's version n functions must only be callable in version n\";\n}",
         "id": "reinitVersionCheckParent",
         "title": "Reinit version check parent",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "Functions implemented in the parent contract that require `_initialized` to\nbe a certain value are only callable when it is that value."
     },
     {
-        "content": "/// Functions implemented in the child contract that require `_initialized` to\n/// be a certain value are only callable when it is that value.\n",
+        "content": "/// Functions implemented in the child contract that require `_initialized` to\n/// be a certain value are only callable when it is that value.\nrule reinitVersionCheckChild {\n    uint8 n;\n\n    returnsAVN(n);\n    assert initialized() == n, \"child contract's version n functions must only be callable in version n\";\n}",
         "id": "reinitVersionCheckChild",
         "title": "Reinit version check child",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "Functions implemented in the child contract that require `_initialized` to\nbe a certain value are only callable when it is that value."
     },
     {
-        "content": "/// Functions implemented in the grandchild contract that require `_initialized`\n/// to be a certain value are only callable when it is that value.\n",
+        "content": "/// Functions implemented in the grandchild contract that require `_initialized`\n/// to be a certain value are only callable when it is that value.\nrule reinitVersionCheckGrandchild {\n    uint8 n;\n\n    returnsBVN(n);\n    assert initialized() == n, \"gransdchild contract's version n functions must only be callable in version n\";\n}",
         "id": "reinitVersionCheckGrandchild",
         "title": "Reinit version check grandchild",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "Functions implemented in the grandchild contract that require `_initialized`\nto be a certain value are only callable when it is that value."
     },
     {
-        "content": "/// Calling parent initalizer function must initialize all child contracts.\n",
+        "content": "/// Calling parent initalizer function must initialize all child contracts.\nrule inheritanceCheck {\n    uint256 val; uint8 n; uint256 a; uint256 b;\n\n    reinitialize(val, a, b, n);\n    assert val() == val && a() == a && b() == b, \"all child contract values must be initialized\";\n}",
         "id": "inheritanceCheck",
         "title": "Inheritance check",
         "type": "rule",
-        "return": {
-            "type": "None"
-        },
         "notice": "Calling parent initalizer function must initialize all child contracts."
     }
 ]
