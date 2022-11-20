@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build-and-publish:
+  test-and-build:
     docker:
       - image: cimg/python:3.7.13
     steps:
@@ -22,13 +22,45 @@ jobs:
             python3 setup.py bdist_wheel sdist
       - store_artifacts:
           path: dist
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./dist
+
+  publish-to-test-pypi:
+    docker:
+      - image: cimg/python:3.7.13
+    steps:
+      - attach_workspace:
+         at: .
       - run:
-          name: Upload to basic_tests PyPI
+          name: Upload to PyPI
           command: |
             pip install --user twine
             python3 -m twine upload --skip-existing --verbose --repository testpypi -u ${TESTPYPI_USER} -p ${TESTPYPI_PASSWORD} dist/*
 
+  publish-to-production-pypi:
+    docker:
+      - image: cimg/python:3.7.13
+    steps:
+      - attach_workspace:
+         at: .
+      - run:
+          name: Upload to PyPI
+          command: |
+            pip install --user twine
+            python3 -m twine upload --skip-existing --verbose -u ${PYPI_USER} -p ${PYPI_PASSWORD} dist/*
+
 workflows:
-  build-and-publish:
+  test-build-and-publish:
     jobs:
-      - build-and-publish
+      - test-and-build
+      - publish-to-test-pypi:
+          requires:
+            - test-and-build
+      - publish-to-production-pypi:
+          requires:
+            - test-and-build
+          filters:
+            branches:
+              only: production
