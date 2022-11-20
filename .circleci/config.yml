@@ -49,7 +49,7 @@ jobs:
           name: Upload to PyPI
           command: |
             pip install --user twine
-            python3 -m twine upload --skip-existing --verbose -u ${PYPI_USER} -p ${PYPI_PASSWORD} dist/*
+            python3 -m twine upload --skip-existing --verbose -u ${PRODPYPI_USER} -p ${PRODPYPI_PASSWORD} dist/*
 
 workflows:
   test-build-and-publish:
