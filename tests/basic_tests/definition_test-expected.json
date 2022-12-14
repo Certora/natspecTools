@@ -1,0 +1,39 @@
+[
+    {
+        "type": "text",
+        "text": "# NatSpec test file for the 'definition' CVL command."
+    },
+    {
+        "content": "/**\n * @title harness_isListed  - is listed harness.\n * @param a sender's address\n * @param i the value that is tested.\n * @return true if the iterm is listed. false, otherwise.\n */\ndefinition harness_isListed(address a, uint i) returns bool = 0 <= i && i < shadowLenArray() && shadowArray(i) == a ;",
+        "type": "definition",
+        "id": "harness_isListed",
+        "title": "harness_isListed  - is listed harness.",
+        "params": [
+            {
+                "type": "address",
+                "name": "a",
+                "comment": "a sender's address"
+            },
+            {
+                "type": "uint",
+                "name": "i",
+                "comment": "i the value that is tested."
+            }
+        ],
+        "return": {
+            "type": "bool",
+            "comment": "true if the iterm is listed. false, otherwise."
+        }
+    },
+    {
+        "content": "/**\n * @title MAX_UINT160  - maximum integer.\n * @notice - returns the value of maximum integer in 160 bits.\n * @return the maximum value.\n */\ndefinition MAX_UINT160() returns uint = 1461501637330902918203684832716283019655932542975;",
+        "type": "definition",
+        "id": "MAX_UINT160",
+        "title": "MAX_UINT160  - maximum integer.",
+        "return": {
+            "type": "uint",
+            "comment": "the maximum value."
+        },
+        "notice": "- returns the value of maximum integer in 160 bits."
+    }
+]

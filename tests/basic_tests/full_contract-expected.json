@@ -4,10 +4,14 @@
         "text": "# testing the NatSpec parser.\nThis is made by Gabriel  it contains all\nknown tags"
     },
     {
+        "content": "methods {\n    get5() returns uint envfree\n    init_state() envfree\n    setX(uint256) envfree\n    getX() returns uint envfree\n    getXCanRevert(uint256) returns uint envfree\n    twoReturns(uint256) returns (uint256,uint256) envfree\n    threeReturns(uint256,uint256) returns (uint256,uint256,uint256)\n}",
+        "type": "methods"
+    },
+    {
         "content": "/**\n * @title takeTwoEnvs function\n * @param e1 - first environment\n * @param e2 - second environment\n **/\nfunction takeTwoEnvs(env e1, env e2) {\n    require e1.msg.value == 0;\n    require e1.msg.sender == e2.msg.sender;\n}",
+        "type": "function",
         "id": "takeTwoEnvs",
         "title": "takeTwoEnvs function",
-        "type": "function",
         "params": [
             {
                 "type": "env",
@@ -23,23 +27,23 @@
     },
     {
         "content": "/**\n * @title callGet5 function calling get5\n * @notice no parameters\n **/\nfunction callGet5() {\n    assert get5() == 5;\n}",
+        "type": "function",
         "id": "callGet5",
         "title": "callGet5 function calling get5",
-        "type": "function",
         "notice": "no parameters"
     },
     {
         "content": "/**\n * @title my_invariant invariant!\n * @notice ensuring get5 is always equal 5\n **/\ninvariant my_invariant() get5() == 5 {\n    preserved init_state() {\n        require getX() == 20;\n    }\n}",
+        "type": "invariant",
         "id": "my_invariant",
         "title": "my_invariant invariant!",
-        "type": "invariant",
         "notice": "ensuring get5 is always equal 5"
     },
     {
         "content": "/**\n * @title a wrapper of callGet5!\n * @notice ensuring get5 is always equal 5\n **/\nrule wrapper() {\n    callGet5();\n    assert true;\n}",
+        "type": "rule",
         "id": "wrapper",
         "title": "a wrapper of callGet5!",
-        "type": "rule",
         "notice": "ensuring get5 is always equal 5"
     },
     {
@@ -48,23 +52,29 @@
     },
     {
         "content": "/**\n * @title inlineInvoke\n * @notice invoking in inline fashion the setX and getX functions\n **/\nrule inlineInvoke() {\n    uint n;\n    // invoke as a command\n    setX(n);\n    // invoke as an expression\n    assert getX() == n;\n}",
+        "type": "rule",
         "id": "inlineInvoke",
         "title": "inlineInvoke",
-        "type": "rule",
         "notice": "invoking in inline fashion the setX and getX functions"
     },
     {
         "content": "/**\n * @title a wrapper of callGet5!\n * @notice ensuring get5 is always equal 5\n **/\nrule inlineInvokeCanRevert() {\n    uint n;\n    uint m;\n    // invoke as a command\n    setX(n);\n    // invoke as an expression\n    assert getXCanRevert@withrevert(m) == n;\n}",
+        "type": "rule",
         "id": "inlineInvokeCanRevert",
         "title": "a wrapper of callGet5!",
-        "type": "rule",
         "notice": "ensuring get5 is always equal 5"
     },
     {
+        "content": "rule inlineInvokeCanRevertSafe() {\n    uint n;\n    uint m;\n    // invoke as a command\n    setX(n);\n    // invoke as an expression\n    assert getXCanRevert@norevert(m) == n;\n}",
+        "type": "rule",
+        "id": "inlineInvokeCanRevertSafe",
+        "title": "Inline invoke can revert safe"
+    },
+    {
         "content": "/**\n * @title a parametric rule!\n * @notice asserting any method\n * @param f  the method being checked.\n **/\nrule parametric(method f) {\n    env e;\n    calldataarg args;\n    f(e, args);\n    assert true;\n}",
+        "type": "rule",
         "id": "parametric",
         "title": "a parametric rule!",
-        "type": "rule",
         "params": [
             {
                 "type": "method",
@@ -75,10 +85,46 @@
         "notice": "asserting any method"
     },
     {
+        "content": "rule parametricWithRevert(method f) {\n    env e;\n    calldataarg args;\n    f@withrevert(e, args);\n    assert !lastReverted;\n}",
+        "type": "rule",
+        "id": "parametricWithRevert",
+        "title": "Parametric with revert",
+        "params": [
+            {
+                "type": "method",
+                "name": "f"
+            }
+        ]
+    },
+    {
+        "content": "rule parametricNoRevert(method f) {\n    env e;\n    calldataarg args;\n    f@norevert(e, args);\n    assert !lastReverted;\n}",
+        "type": "rule",
+        "id": "parametricNoRevert",
+        "title": "Parametric no revert",
+        "params": [
+            {
+                "type": "method",
+                "name": "f"
+            }
+        ]
+    },
+    {
+        "content": "rule twoReturns(uint256 n) {\n    uint256 x;\n    uint256 nPlusX;\n    require n < 107982;\n    x, nPlusX = twoReturns(n);\n    require x < 123549817;\n    assert nPlusX == n + x;\n}",
+        "type": "rule",
+        "id": "twoReturns",
+        "title": "Two returns",
+        "params": [
+            {
+                "type": "uint256",
+                "name": "n"
+            }
+        ]
+    },
+    {
         "content": "/**\n * @title a 3 return rule!\n * @notice checking the summation\n * @param n is the first argument\n * @param m is the second argument\n **/\nrule threeReturns(uint256 n, uint256 m) {\n    env e;\n    uint256 nPlusX;\n    uint256 nPlusXPlusM;\n    uint256 x;\n    x, nPlusX, nPlusXPlusM = threeReturns(e, n, m);\n    require x < 10987098;\n    require n < 150293879209;\n    require m < 1203958240;\n    assert nPlusX == x + n;\n    assert nPlusXPlusM == nPlusX + m;\n}",
+        "type": "rule",
         "id": "threeReturns",
         "title": "a 3 return rule!",
-        "type": "rule",
         "params": [
             {
                 "type": "uint256",
@@ -92,5 +138,21 @@
             }
         ],
         "notice": "checking the summation"
+    },
+    {
+        "content": "rule multipleEnvToCVLFunction(env e1, env e2) {\n    takeTwoEnvs(e1, e2);\n    assert e1.msg.value == 0 && e1.msg.sender == e2.msg.sender;\n}",
+        "type": "rule",
+        "id": "multipleEnvToCVLFunction",
+        "title": "Multiple env to cvl function",
+        "params": [
+            {
+                "type": "env",
+                "name": "e1"
+            },
+            {
+                "type": "env",
+                "name": "e2"
+            }
+        ]
     }
 ]

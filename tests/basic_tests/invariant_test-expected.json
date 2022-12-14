@@ -5,24 +5,24 @@
     },
     {
         "content": "/**\n * @title totalSupply_LE_balance\n * @notice invariant to assure that the total supply is always under the balance amount.\n *  the variant has no parameters.\n * @dev assume currentContract is initiated.\n */\ninvariant totalSupply_LE_balance()\n    totalSupply() <= underlying.balanceOf(currentContract)\n    {\n        preserved with(env e) {\n            require e.msg.sender != currentContract;\n        }\n    }",
+        "type": "invariant",
         "id": "totalSupply_LE_balance",
         "title": "totalSupply_LE_balance",
-        "type": "invariant",
         "notice": "invariant to assure that the total supply is always under the balance amount.\nthe variant has no parameters.",
         "dev": "assume currentContract is initiated."
     },
     {
         "content": "/**\n * @title totalSupply_vs_balance\n * @notice The total supply of the system si zero if and only if the balanceof the system is zero\n * the variant has no parameters\n*/\ninvariant totalSupply_vs_balance()\n    totalSupply() == 0 <=> underlying.balanceOf(currentContract) == 0\n    {\n        preserved with(env e) {\n            require e.msg.sender != currentContract;\n        }\n    }",
+        "type": "invariant",
         "id": "totalSupply_vs_balance",
         "title": "totalSupply_vs_balance",
-        "type": "invariant",
         "notice": "The total supply of the system si zero if and only if the balanceof the system is zero\nthe variant has no parameters"
     },
     {
-        "content": "/**\n * @title proxyNotZero\n * @notice make sure that the proxy is not zero.\n * @dev make use of 'getOrCreateProxy'\n * @param a = proxy address\n*/\ninvariant proxyNotZero(address a) getOrCreateProxy(a) != 0\n\n",
+        "content": "/**\n * @title proxyNotZero\n * @notice make sure that the proxy is not zero.\n * @dev make use of 'getOrCreateProxy'\n * @param a = proxy address\n*/\ninvariant proxyNotZero(address a) getOrCreateProxy(a) != 0",
+        "type": "invariant",
         "id": "proxyNotZero",
         "title": "proxyNotZero",
-        "type": "invariant",
         "params": [
             {
                 "type": "address",
@@ -34,10 +34,10 @@
         "dev": "make use of 'getOrCreateProxy'"
     },
     {
-        "content": "/**\n * @title check - check all addresses.\n * @dev make use of 'getVoteSigner' and 'isAccount'\n * @param x = source address\n * @param d = destination address\n*/\ninvariant check(address x, address d)\n\t\t!sinvoke isAccount(x) && sinvoke getVoteSigner(x)==d  => d==0\n",
+        "content": "/**\n * @title check - check all addresses.\n * @dev make use of 'getVoteSigner' and 'isAccount'\n * @param x = source address\n * @param d = destination address\n*/\ninvariant check(address x, address d)\n\t\t!sinvoke isAccount(x) && sinvoke getVoteSigner(x)==d  => d==0",
+        "type": "invariant",
         "id": "check",
         "title": "check - check all addresses.",
-        "type": "invariant",
         "params": [
             {
                 "type": "address",

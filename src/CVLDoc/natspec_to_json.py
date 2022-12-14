@@ -29,16 +29,15 @@ def natspec_to_json(args) -> None:
 
     # The parse function returns a list of documentations list, one
     # list for each input file.
-    files_documentations = cvldoc_parser.parse(args.input_file)
-
+    files_cvl_elements = cvldoc_parser.parse(args.input_file)
     # loop through all documentation lists.
     file_number = 0
 
-    for documentation_list in files_documentations:
+    for cvlElements_list in files_cvl_elements:
         if args.verbosity:
             print(f'processing file: {args.input_file[file_number]}')
 
-        json_object_list = handle_documentation_list(documentation_list)
+        json_object_list = handle_cvlElements_list(cvlElements_list)
 
         # build output file name from input file name
         input_filename, file_extension = os.path.splitext(args.input_file[file_number])
@@ -54,94 +53,73 @@ def natspec_to_json(args) -> None:
         print('processing finished!')
 
 
-def handle_documentation_list(documentation_list) -> List[Dict]:
+def handle_cvlElements_list(cvlElement_list) -> List[Dict]:
     document_dicts = []
-    for documentation in documentation_list:
-        result_data = handle_documentation(documentation)
+    for cvlElement in cvlElement_list:
+        result_data = handle_cvlElement(cvlElement)
         if result_data is not None:
             document_dicts.append(result_data)
 
     return document_dicts
 
 
-# handle documentation
+# handle a CVL element
 # a documentation can be a 'Free form' or an actual 'Documentation' object
-def handle_documentation(documentation) -> Dict[str, any]:
-    doc_dict = {}
-    diagnostics = documentation.diagnostics()
+def handle_cvlElement(cvl_element) -> Dict[str, any]:
 
-    # display all documentation diagnostic messages, if exist
-    for message in diagnostics:
-        print_diag(message)
+    # the resulted CVL element dictionary for JSON
+    element_dict = {}
+
+    # diagnostics messages are disabled for now.
+    # diagnostics = cvl_element.diagnostics()
+    #
+    # # display all documentation diagnostic messages, if exist
+    # for message in diagnostics:
+    #     print_diag(message)
 
     # check if this item is a FreeForm text
     # copy the relevant entries ('type' and 'text').
-    if documentation.__class__.__name__ == 'FreeForm':
-        if documentation.text:
-            doc_dict['type'] = 'text'
-            doc_dict['text'] = documentation.text
-            return doc_dict
+    if cvl_element.ast.kind == 'freeform comment':
+        # free form comment has only the block text. check if not
+        if cvl_element.ast.text:
+            element_dict['type'] = 'text'
+            element_dict['text'] = cvl_element.ast.text
+            return element_dict
         else:
             return None
 
-    # item not a free form, must have an associated
-    # syntactic element
-    elif documentation.__class__.__name__ == 'Documentation':  # Documentation object
-        if documentation.associated is not None:
-            doc_dict['content'] = documentation.raw
-            if documentation.associated.name is not None:
-                doc_dict['id'] = documentation.associated.name
-                doc_dict['title'] = inflection.humanize(inflection.titleize(documentation.associated.name))
-            function_names = ['function', 'definition', 'ghost variable', 'ghost function']
-            other_names = ['summerization', 'import', 'use', 'using', 'hook']
+    else:  # not a free form element
+        element_dict['content'] = cvl_element.raw()
+        element_dict['type'] = cvl_element.ast.kind
+        if cvl_element.ast.name is not None:
+            element_dict['id'] = cvl_element.ast.name
+            element_dict['title'] = inflection.humanize(inflection.titleize(cvl_element.ast.name))
 
-            if documentation.associated.kind in function_names:
-                doc_dict['type'] = 'function'
-            elif documentation.associated.kind == 'rule':
-                doc_dict['type'] = 'rule'
-            elif documentation.associated.kind == 'invariant':
-                doc_dict['type'] = 'invariant'
-            elif documentation.associated.kind == 'methods':
-                doc_dict['type'] = 'methods'
-            elif documentation.associated.kind in other_names:
-                doc_dict['type'] = documentation.associated.kind
-            else:
-                print(f'unknown element type : {documentation.associated.kind}')
+        # add parameters info, if exist
+        param_list = []
+        for param in cvl_element.ast.params:
+            param_dict = {'type': param[0], 'name': param[1]}
+            param_list.append(param_dict)
+        if param_list:
+            element_dict['params'] = param_list
 
-            # add parameters info, if exist
-            param_list = []
-            param_index = 0
-            for param in documentation.associated.params:
-                param_dict = {'type': param[0], 'name': param[1]}
-                param_list.append(param_dict)
+        # get the return data type
+        if cvl_element.ast.returns is not None:
+            element_dict['return'] = {'type': cvl_element.ast.returns}
 
-            if param_list:
-                doc_dict['params'] = param_list
-
-            # get the return data type
-            ret_data = {}
-            if documentation.associated.returns is not None:
-                doc_dict['return'] = {'type': documentation.associated.returns}
-
-        else:  # associated element is unrecognized.
-            doc_dict['type'] = 'unknown'
-
-    else:
-        print('NatSpec parser library type is not supported!')
-        return None
-
+    # loop through all element tags, saving all @dev  tags together.
     dev_contents = []
-    for doc_tag in documentation.tags:
+    for doc_tag in cvl_element.doc:
         if doc_tag.kind == 'dev':
-            dev_contents.append(doc_tag.description)
+            dev_contents.append(doc_tag.description.strip())
         else:
-            handle_tag(doc_dict, doc_tag)
+            handle_tag(element_dict, doc_tag)
 
     #  join all @dev tags to one tag.
     if dev_contents:
-        doc_dict['dev'] = '\n'.join(dev_contents)
+        element_dict['dev'] = '\n'.join(dev_contents)
 
-    return doc_dict
+    return element_dict
 
 
 def get_parser():
