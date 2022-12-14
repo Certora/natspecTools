@@ -10,7 +10,7 @@ jobs:
           name: "Install pip dependencies"
           command: |
             pip install wheel pytest deepdiff inflection
-            pip install -i https://test.pypi.org/simple/ cvldoc_parser==0.5.0
+            pip install -i https://test.pypi.org/simple/ cvldoc_parser==0.6.4
       - run:
           name: "run tests"
           command: |
