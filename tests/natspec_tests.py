@@ -69,17 +69,27 @@ def test_function():
         pprint(diff, indent=4)
         assert 0
 
+
 def test_rules():
     diff = run_test_file(str(Path('basic_tests/rules_test.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
 
+
 def test_methods():
     diff = run_test_file(str(Path('basic_tests/methods_test.spec')))
     if diff:
         pprint(diff, indent=4)
         assert 0
+
+
+def test_definition():
+    diff = run_test_file(str(Path('basic_tests/methods_test.spec')))
+    if diff:
+        pprint(diff, indent=4)
+        assert 0
+
 
 # not supported yet.
 # def test_using():
@@ -144,6 +154,8 @@ if __name__ == '__main__':
     test_rules()
 #    test_import()
 #    test_using()
+    test_definition()
+    test_methods()
     test_full_contract()
 
     # advanced tests
