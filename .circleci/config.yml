@@ -7,7 +7,7 @@ commands:
 
   test_package:
     steps:
-      - run: sudo pip install pytest deepdiff
+      - run: pip install pytest deepdiff
       - run:
           name: "run tests"
           command: |
@@ -88,7 +88,7 @@ jobs:
 
       - upgrade_pip
       - run: pip --version
-      - run: sudo pip install --extra-index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/ `awk '{print $1}' PACKAGE.txt`==`awk '{print $1}' VERSION.txt`
+      - run: pip install --extra-index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/ `awk '{print $1}' PACKAGE.txt`==`awk '{print $1}' VERSION.txt`
       - run: pip freeze
       - run:
           name: Check cvldoc --help
