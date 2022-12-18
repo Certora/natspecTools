@@ -3,6 +3,7 @@ version: 2.1
 commands:
   fetch:
     steps:
+      - run: pwd
       - checkout
 
   test_package:
@@ -36,7 +37,6 @@ jobs:
           name: Build
           command: |
             python setup.py sdist bdist_wheel
-
       - test_package
       - persist_to_workspace:
           root: ~/repo
