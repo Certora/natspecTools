@@ -17,7 +17,7 @@ commands:
   upgrade_pip:
     steps:
       - run: python -m pip install --user --upgrade pip
-      - run: sudo pip install -U pip setuptools
+      - run: pip install -U pip setuptools
 
 
 jobs:
