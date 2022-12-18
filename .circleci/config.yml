@@ -95,7 +95,10 @@ jobs:
           name: Check cvldoc --help
           command: |
             cvldoc --help
-      - test_package
+      - run:
+          name: run cvldoc on a test file
+          command: |
+            sh tests/run_single_test.sh 
 
   python_lint:
     docker:
