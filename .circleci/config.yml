@@ -37,7 +37,7 @@ jobs:
           command: |
             python setup.py sdist bdist_wheel
 
-      - test-package
+      - test_package
       - persist_to_workspace:
           root: ~/repo
           paths:
