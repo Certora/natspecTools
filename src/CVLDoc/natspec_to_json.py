@@ -1,10 +1,8 @@
 import argparse
 import json
-import logging
 import os
 import re
-from typing import Any, Dict, List, Tuple, Optional, Set, BinaryIO
-from pathlib import Path
+from typing import Dict, List
 import cvldoc_parser
 import inflection
 
