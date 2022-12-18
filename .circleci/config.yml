@@ -89,7 +89,7 @@ jobs:
 
       - upgrade_pip
       - run: pip --version
-      - run: pip install --extra-index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/ `awk '{print $1}' PACKAGE.txt`==`awk '{print $1}' VERSION.txt`
+      - run: pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple cvldoc
       - run: pip freeze
       - run:
           name: Check cvldoc --help
