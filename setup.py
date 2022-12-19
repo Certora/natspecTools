@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 NAME = "CVLDoc"
-VERSION = "0.3.0"
+VERSION = "0.3.1"
 
 if __name__ == "__main__":
     setup(
