@@ -106,7 +106,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - upgrade_pip
-      - run: pip install --user tabulate requests pycryptodome tqdm click sly
+#       - run: pip install --user tabulate requests pycryptodome tqdm click sly
       - run: pip install --user flake8
       - run: python -m flake8 --config tests/.flake8  src/CVLDoc/natspec_to_json.py
       - run: python -m flake8 --config tests/.flake8 tests/natspec_tests.py
