@@ -5,21 +5,12 @@ from pprint import pprint
 from pathlib import Path
 import os
 
-#test_args = ['-v']
-#filenames = ['basic_tests\\function_test.spec',
-#             'basic_tests\\invariant_test.spec',
-#             'test\\rules_test.spec',
-#             'test\\import_test.spec',
-#             'test\\methods_test.spec',
-#             'test\\use_test.spec',
-#             'test\\using_test.spec',
-#             'test\\full_contract.spec']
 
 # parser = natspec_to_json.get_parser()
 # args = parser.parse_args(test_args + filenames)
 # natspec_to_json.natspec_to_json(args)
 
-# rnu a single test file
+# run a single test file
 
 def omit_cr_from_file(filename):
     with open(filename, 'r+') as f:
